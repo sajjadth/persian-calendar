@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/persian-calendar/static/css/main.8b1b9334.css",
+    "main.js": "/persian-calendar/static/js/main.5bbd1cdb.js",
+    "static/media/Sahel-Bold.eot": "/persian-calendar/static/media/Sahel-Bold.542b96d9928b115e0cab.eot",
+    "static/media/Sahel-Bold.ttf": "/persian-calendar/static/media/Sahel-Bold.49063e5bf0cd49628ac1.ttf",
+    "static/media/Sahel.eot": "/persian-calendar/static/media/Sahel.edbc750873db0b16a52e.eot",
+    "static/media/Sahel.ttf": "/persian-calendar/static/media/Sahel.098f292526813be947e8.ttf",
+    "static/media/Sahel-Bold.woff": "/persian-calendar/static/media/Sahel-Bold.cfae7a4fe4c336ad3aa8.woff",
+    "static/media/Sahel.woff": "/persian-calendar/static/media/Sahel.f0ac8c7018b24ef1cfe7.woff",
+    "index.html": "/persian-calendar/index.html",
+    "static/media/navigate_next-dark.svg": "/persian-calendar/static/media/navigate_next-dark.db4e5cc4860fa8189114ecd94a93275d.svg",
+    "static/media/navigate_next-light.svg": "/persian-calendar/static/media/navigate_next-light.346660b76be401a1dc89a5cd7cc7ea47.svg",
+    "static/media/navigate_before-dark.svg": "/persian-calendar/static/media/navigate_before-dark.951c707afb3e037ecead17afe0aeabfc.svg",
+    "static/media/navigate_before-light.svg": "/persian-calendar/static/media/navigate_before-light.016c0c7446196be36a657bd8dfc3e60c.svg",
+    "main.8b1b9334.css.map": "/persian-calendar/static/css/main.8b1b9334.css.map",
+    "main.5bbd1cdb.js.map": "/persian-calendar/static/js/main.5bbd1cdb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8b1b9334.css",
+    "static/js/main.5bbd1cdb.js"
+  ]
+}
