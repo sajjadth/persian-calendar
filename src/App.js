@@ -58,22 +58,15 @@ class App extends React.Component {
     );
   }
   fixEventText(event) {
-    return event.text
-      .split(" ")
-      .slice(2, event.text.split(" ").length)
-      .join(" ")
-      .indexOf("[") != -1
+    return event.text.split(" ").slice(2, event.text.split(" ").length).join(" ").indexOf("[") !==
+      -1
       ? event.text
           .split(" ")
           .slice(2, event.text.split(" ").length)
           .join(" ")
           .slice(
             0,
-            event.text
-              .split(" ")
-              .slice(2, event.text.split(" ").length)
-              .join(" ")
-              .indexOf("[")
+            event.text.split(" ").slice(2, event.text.split(" ").length).join(" ").indexOf("[")
           )
       : event.text.split(" ").slice(2, event.text.split(" ").length).join(" ");
   }
@@ -101,7 +94,7 @@ class App extends React.Component {
       });
       this.setState({ loading: false });
     } else {
-      this.state.currentMonth.events.map((event) => {
+      this.state.currentMonth.events.forEach((event) => {
         if (Number(event.jDay) === day) {
           events.push(event);
         }
@@ -114,19 +107,14 @@ class App extends React.Component {
     }
   }
   async getData(year) {
-    await fetch(
-      "https://hmarzban.github.io/pipe2time.ir/api/" +
-        String(year) +
-        "/index.json"
-    )
+    await fetch("https://hmarzban.github.io/pipe2time.ir/api/" + String(year) + "/index.json")
       .then(async (res) => {
         if (res.ok) {
           return await res.json();
         } else {
           this.setState({ error: true });
           this.setState({
-            errorMessage:
-              "مشکل در برقراری ارتباط رخ داده لطفا دوباره امتحان کنید.",
+            errorMessage: "مشکل در برقراری ارتباط رخ داده لطفا دوباره امتحان کنید.",
           });
           this.setState({ loading: false });
         }
@@ -134,37 +122,26 @@ class App extends React.Component {
       .then((data) => {
         this.setState({ currentYear: data[this.state.selectedYear] });
         this.setState({
-          currentMonth:
-            data[this.state.selectedYear][this.state.selectedMonth - 1],
+          currentMonth: data[this.state.selectedYear][this.state.selectedMonth - 1],
         });
       });
   }
   daysClickHandler(e) {
     let target = e.target;
-    if (
-      target.classList.contains("secandary-day") ||
-      target.classList.contains("jalali")
-    ) {
+    if (target.classList.contains("secandary-day") || target.classList.contains("jalali")) {
       target = e.target.parentNode;
-    } else if (
-      target.classList.contains("qamari") ||
-      target.classList.contains("miladi")
-    ) {
+    } else if (target.classList.contains("qamari") || target.classList.contains("miladi")) {
       target = e.target.parentNode.parentNode;
     }
     target = target.id;
     if (target !== "today-" + this.state.theme) {
       if (!this.state.selectedDayStyle)
-        document
-          .getElementById(target)
-          .classList.add("selected-" + this.state.theme);
+        document.getElementById(target).classList.add("selected-" + this.state.theme);
       else {
         document
           .getElementById(this.state.selectedDayStyle)
           .classList.remove("selected-" + this.state.theme);
-        document
-          .getElementById(target)
-          .classList.add("selected-" + this.state.theme);
+        document.getElementById(target).classList.add("selected-" + this.state.theme);
       }
       this.setState({ selectedDayStyle: target });
     } else {
@@ -174,9 +151,7 @@ class App extends React.Component {
       this.setState({ selectedDayStyle: null });
     }
     this.getTodayEvents(
-      Number(
-        this.p2e(document.getElementById(target).childNodes[0].textContent)
-      )
+      Number(this.p2e(document.getElementById(target).childNodes[0].textContent))
     );
   }
   monthChangeHandler(e) {
@@ -193,7 +168,7 @@ class App extends React.Component {
     });
     switch (e.target.id.split("-")[0]) {
       case "next":
-        if (this.state.selectedMonth == 12) {
+        if (this.state.selectedMonth === 12) {
           this.setState({ loading: true });
           this.setState({ selectedYear: this.state.selectedYear + 1 });
           this.getData(this.state.selectedYear + 1);
@@ -256,6 +231,8 @@ class App extends React.Component {
             } else this.getTodayEvents(0);
           });
         }
+        break;
+      default:
         break;
     }
   }
@@ -324,14 +301,11 @@ class App extends React.Component {
     );
   }
   componentWillMount() {
-    const params = window.location.search
-      .slice(1, window.location.search.length)
-      .split("&");
-    if (params.length != 0) {
+    const params = window.location.search.slice(1, window.location.search.length).split("&");
+    if (params.length !== 0) {
       params.forEach((p) => {
         const [key, value] = p.split("=");
-        if (key === "theme" && value === "light")
-          this.setState({ theme: value });
+        if (key === "theme" && value === "light") this.setState({ theme: value });
       });
     }
     let date = new Date().toLocaleDateString("fa-IR").split("/");
