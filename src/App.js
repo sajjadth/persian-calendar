@@ -102,29 +102,36 @@ class App extends React.Component {
           eventsOfMonth.push(Number(event.jDay));
         }
       });
-      this.setState({ todayEvents: events });
-      this.setState({ eventsOfMonth: eventsOfMonth });
+      this.setState({ todayEvents: events, eventsOfMonth: eventsOfMonth, loading: false });
     }
   }
   async getData(year) {
-    await fetch("https://hmarzban.github.io/pipe2time.ir/api/" + String(year) + "/index.json")
-      .then(async (res) => {
-        if (res.ok) {
-          return await res.json();
-        } else {
-          this.setState({ error: true });
-          this.setState({
-            errorMessage: "مشکل در برقراری ارتباط رخ داده لطفا دوباره امتحان کنید.",
-          });
-          this.setState({ loading: false });
-        }
-      })
-      .then((data) => {
-        this.setState({ currentYear: data[this.state.selectedYear] });
+    try {
+      const res = await fetch(
+        "https://hmarzban.github.io/pipe2time.ir/api/" + String(year) + "/index.json"
+      );
+      if (!res.ok) {
         this.setState({
-          currentMonth: data[this.state.selectedYear][this.state.selectedMonth - 1],
+          error: true,
+          errorMessage: "مشکل در برقراری ارتباط رخ داده لطفا دوباره امتحان کنید.",
+          loading: false,
         });
+      }
+      const data = await res.json();
+      this.setState(
+        {
+          currentYear: data[this.state.selectedYear],
+          currentMonth: data[this.state.selectedYear][this.state.selectedMonth - 1],
+        },
+        () => this.getTodayEvents()
+      );
+    } catch (err) {
+      this.setState({
+        error: true,
+        errorMessage: "مشکل در برقراری ارتباط رخ داده لطفا دوباره امتحان کنید.",
+        loading: false,
       });
+    }
   }
   daysClickHandler(e) {
     let target = e.target;
@@ -318,12 +325,6 @@ class App extends React.Component {
   }
   componentDidMount() {
     this.getData(this.state.year);
-    setTimeout(() => {
-      if (!this.state.error) {
-        this.getTodayEvents(this.state.day);
-        this.setState({ loading: false });
-      }
-    }, 2000);
   }
 }
 
