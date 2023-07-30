@@ -5,31 +5,37 @@ import BeforeLight from "../assets/icons/navigate_before-light.svg";
 import BeforeDark from "../assets/icons/navigate_before-dark.svg";
 
 class Calendar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { daysOfWeek: ["شنبه", "یک", "دو", "سه", "چهار", "پنج", "جمعه"] };
+  }
+  e2a(s) {
+    return s.replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+  }
+  e2p(s) {
+    return s.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+  }
   render() {
     return (
       <React.Fragment>
         <div id="calendar-header">
           <img
             onClick={(e) => this.props.monthChangeHandler(e)}
-            id={"previous-" + this.props.theme}
+            id={this.props.getClassName("previous")}
             src={this.props.theme === "dark" ? BeforeDark : BeforeLight}
             alt="previous"
           />
-          <div id={"calendar-header-details-" + this.props.theme}>
-            <p id="calendar-header-jalali">
-              {this.props.e2p(this.props.currentMonth.header.jalali)}
-            </p>
+          <div id={this.props.getClassName("calendar-header-details")}>
+            <p id="calendar-header-jalali">{this.e2p(this.props.currentMonth.header.jalali)}</p>
             <div id="secandary-header-details">
               <p id="calendar-header-miladi">{this.props.currentMonth.header.miladi}</p>
-              <p id="calendar-header-qamari">
-                {this.props.e2a(this.props.currentMonth.header.qamari)}
-              </p>
+              <p id="calendar-header-qamari">{this.e2a(this.props.currentMonth.header.qamari)}</p>
             </div>
             <p
               className={
-                this.props.isItToday() ? "back-to-today-disabled-" + this.props.theme : null
+                this.props.isItToday() ? this.props.getClassName("back-to-today-disabled") : null
               }
-              id={"back-to-today-" + this.props.theme}
+              id={this.props.getClassName("back-to-today")}
               onClick={this.props.backToTodayHandler}
             >
               {this.props.isItToday() ? null : "برو به "}
@@ -38,16 +44,16 @@ class Calendar extends React.Component {
           </div>
           <img
             onClick={(e) => this.props.monthChangeHandler(e)}
-            id={"next-" + this.props.theme}
+            id={this.props.getClassName("next")}
             src={this.props.theme === "dark" ? NextDark : NextLight}
             alt="next"
           />
         </div>
         <hr className="divider" />
         <div id="calendar-main">
-          {this.props.daysOfWeek.map((dayOfWeek, i) => {
+          {this.state.daysOfWeek.map((dayOfWeek, i) => {
             return (
-              <p className={"days-of-week-" + this.props.theme} key={i}>
+              <p className={this.props.getClassName("days-of-week")} key={i}>
                 {dayOfWeek}
               </p>
             );
@@ -58,7 +64,7 @@ class Calendar extends React.Component {
                 key={i}
                 className={
                   day.disabled
-                    ? "disabled-" + this.props.theme
+                    ? this.props.getClassName("disabled")
                     : `day-${this.props.theme}
                         ${
                           this.props.eventsOfMonth.includes(Number(day.day.j)) &&
@@ -71,17 +77,17 @@ class Calendar extends React.Component {
                 }
                 id={
                   !day.disabled && this.props.isTodayHoliday(Number(day.day.j))
-                    ? "today-" + this.props.theme
+                    ? this.props.getClassName("today")
                     : !day.disabled
                     ? "day" + String(day.day.j)
                     : null
                 }
                 onClick={!day.disabled ? (e) => this.props.daysClickHandler(e) : null}
               >
-                <p className="jalali">{this.props.e2p(day.day.j)}</p>
+                <p className="jalali">{this.e2p(day.day.j)}</p>
                 <div className="secandary-day">
                   <span className="miladi">{day.day.m}</span>
-                  <span className="qamari">{this.props.e2a(day.day.q)}</span>
+                  <span className="qamari">{this.e2a(day.day.q)}</span>
                 </div>
               </div>
             );
@@ -90,11 +96,11 @@ class Calendar extends React.Component {
         <hr className="divider" />
         <div id="calendar-footer">
           {this.props.todayEvents.length === 0 ? (
-            <p id={"no-event-" + this.props.theme}>.رویدادی برای نمایش وجود ندارد</p>
+            <p id={this.props.getClassName("no-event")}>.رویدادی برای نمایش وجود ندارد</p>
           ) : (
             this.props.todayEvents.map((event, i) => {
               return (
-                <p className={"events-" + this.props.theme} key={i}>
+                <p className={this.props.getClassName("events")} key={i}>
                   {this.props.fixEventText(event)}
                   {event.isHoliday ? <span className="red-text"> (تعطیل)</span> : null}
                 </p>
