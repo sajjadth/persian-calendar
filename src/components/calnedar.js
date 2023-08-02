@@ -9,12 +9,7 @@ class Calendar extends React.Component {
     super(props);
     this.state = { daysOfWeek: ["شنبه", "یک", "دو", "سه", "چهار", "پنج", "جمعه"] };
   }
-  e2a(s) {
-    return s.replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
-  }
-  e2p(s) {
-    return s.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
-  }
+  p2e = (s) => String(s).replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
   render() {
     return (
       <React.Fragment>
@@ -26,10 +21,10 @@ class Calendar extends React.Component {
             alt="previous"
           />
           <div id={this.props.getClassName("calendar-header-details")}>
-            <p id="calendar-header-jalali">{this.e2p(this.props.currentMonth.header.jalali)}</p>
+            <p id="calendar-header-jalali">{this.props.currentMonth.header.jalali}</p>
             <div id="secandary-header-details">
-              <p id="calendar-header-miladi">{this.props.currentMonth.header.miladi}</p>
-              <p id="calendar-header-qamari">{this.e2a(this.props.currentMonth.header.qamari)}</p>
+              <p id="calendar-header-miladi">{this.props.currentMonth.header.gregorian}</p>
+              <p id="calendar-header-qamari">{this.props.currentMonth.header.hijri}</p>
             </div>
             <p
               className={
@@ -58,7 +53,7 @@ class Calendar extends React.Component {
               </p>
             );
           })}
-          {this.props.currentMonth.weeks.map((day, i) => {
+          {this.props.currentMonth.days.map((day, i) => {
             return (
               <div
                 key={i}
@@ -67,27 +62,26 @@ class Calendar extends React.Component {
                     ? this.props.getClassName("disabled")
                     : `day-${this.props.theme}
                         ${
-                          this.props.eventsOfMonth.includes(Number(day.day.j)) &&
-                          this.props.isTodayHoliday(Number(day.day.j))
+                          day.events.isHoliday && this.props.isTodayHoliday(day.day.jalali)
                             ? "today-holiday"
-                            : this.props.eventsOfMonth.includes(Number(day.day.j))
+                            : day.events.isHoliday
                             ? "holiday"
                             : null
                         }`
                 }
                 id={
-                  !day.disabled && this.props.isTodayHoliday(Number(day.day.j))
+                  !day.disabled && this.props.isTodayHoliday(day.day.jalali)
                     ? this.props.getClassName("today")
                     : !day.disabled
-                    ? "day" + String(day.day.j)
+                    ? "day" + String(this.p2e(day.day.jalali))
                     : null
                 }
                 onClick={!day.disabled ? (e) => this.props.daysClickHandler(e) : null}
               >
-                <p className="jalali">{this.e2p(day.day.j)}</p>
+                <p className="jalali">{day.day.jalali}</p>
                 <div className="secandary-day">
-                  <span className="miladi">{day.day.m}</span>
-                  <span className="qamari">{this.e2a(day.day.q)}</span>
+                  <span className="miladi">{day.day.gregorian}</span>
+                  <span className="qamari">{day.day.hijri}</span>
                 </div>
               </div>
             );
@@ -98,11 +92,11 @@ class Calendar extends React.Component {
           {this.props.todayEvents.length === 0 ? (
             <p id={this.props.getClassName("no-event")}>.رویدادی برای نمایش وجود ندارد</p>
           ) : (
-            this.props.todayEvents.map((event, i) => {
+            this.props.todayEvents.map((e, i) => {
               return (
                 <p className={this.props.getClassName("events")} key={i}>
-                  {this.props.fixEventText(event)}
-                  {event.isHoliday ? <span className="red-text"> (تعطیل)</span> : null}
+                  {e.event}
+                  {e.isHoliday ? <span className="red-text"> (تعطیل)</span> : null}
                 </p>
               );
             })

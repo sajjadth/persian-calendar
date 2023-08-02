@@ -21,7 +21,6 @@ class App extends React.Component {
       error: false,
       errorMessage: null,
       selectedDayStyle: null,
-      eventsOfMonth: null,
       todayEvents: null,
     };
     this.getData = this.getData.bind(this);
@@ -29,7 +28,6 @@ class App extends React.Component {
     this.getClassName = this.getClassName.bind(this);
     this.retryHandler = this.retryHandler.bind(this);
     this.isTodayHoliday = this.isTodayHoliday.bind(this);
-    this.getTodayEvents = this.getTodayEvents.bind(this);
     this.daysClickHandler = this.daysClickHandler.bind(this);
     this.backToTodayHandler = this.backToTodayHandler.bind(this);
     this.monthChangeHandler = this.monthChangeHandler.bind(this);
@@ -46,63 +44,34 @@ class App extends React.Component {
   }
   isTodayHoliday(d) {
     return (
-      this.state.day === d &&
+      this.state.day === Number(this.p2e(d)) &&
       this.state.selectedYear === this.state.year &&
       this.state.selectedMonth === this.state.month
     );
   }
-  fixEventText(event) {
-    return event.text.split(" ").slice(2, event.text.split(" ").length).join(" ").indexOf("[") !==
-      -1
-      ? event.text
-          .split(" ")
-          .slice(2, event.text.split(" ").length)
-          .join(" ")
-          .slice(
-            0,
-            event.text.split(" ").slice(2, event.text.split(" ").length).join(" ").indexOf("[")
-          )
-      : event.text.split(" ").slice(2, event.text.split(" ").length).join(" ");
-  }
   retryHandler() {
     setTimeout(() => {
-      this.getData(this.state.year);
-      this.setState({ loading: true, errorMessage: null, error: false });
-      setTimeout(() => {
-        if (!this.state.error) {
-          this.getTodayEvents(this.state.day);
-        }
-      }, 1250);
-    }, 750);
+      this.setState({ loading: true, errorMessage: null, error: false }, () =>
+        this.getData(this.state.year)
+      );
+    });
   }
   getTodayEvents(day) {
     if (!this.state.currentMonth) {
-      this.setState({
-        error: true,
-        errorMessage: "مشکل در برقراری ارتباط رخ داده لطفا دوباره امتحان کنید.",
-        loading: false,
-      });
-      return;
+      this.setState(
+        { error: true, errorMessage: "مشکل در برقراری ارتباط رخ داده لطفا دوباره امتحان کنید." },
+        () => this.setState({ loading: false })
+      );
+    } else {
+      let e =
+        this.state.currentMonth.days[this.state.currentMonth.startIndex - 1 + day].events.list;
+      if (day === 0) this.setState({ todayEvents: [] }, () => this.setState({ loading: false }));
+      else this.setState({ todayEvents: e }, () => this.setState({ loading: false }));
     }
-    let events = [];
-    let eventsOfMonth = [];
-    this.state.currentMonth.events.forEach((event) => {
-      if (Number(event.jDay) === day) {
-        events.push(event);
-      }
-      if (event.isHoliday) {
-        eventsOfMonth.push(Number(event.jDay));
-      }
-    });
-    this.setState({ todayEvents: events, eventsOfMonth: eventsOfMonth }, () => {
-      this.setState({ loading: false });
-    });
   }
   async getData(year) {
     try {
-      const res = await fetch(
-        "https://hmarzban.github.io/pipe2time.ir/api/" + String(year) + "/index.json"
-      );
+      const res = await fetch(`https://persian-calendar-api.sajjadth.workers.dev?year=${year}`);
       if (!res.ok) {
         this.setState({
           error: true,
@@ -111,11 +80,11 @@ class App extends React.Component {
         });
       }
       const data = await res.json();
-      console.log(1080, this.state.selectedYear, this.state.selectedMonth);
+
       this.setState(
         {
-          currentYear: data[this.state.selectedYear],
-          currentMonth: data[this.state.selectedYear][this.state.selectedMonth - 1],
+          currentYear: data,
+          currentMonth: data[this.state.selectedMonth - 1],
         },
         () => {
           this.getTodayEvents(this.state.year === this.state.selectedYear ? this.state.day : 0);
@@ -255,16 +224,16 @@ class App extends React.Component {
           ) : (
             <Calendar
               theme={this.state.theme}
-              currentMonth={this.state.currentMonth}
-              eventsOfMonth={this.state.eventsOfMonth}
+              selectedDay={this.state.selectedDay}
               todayEvents={this.state.todayEvents}
+              currentMonth={this.state.currentMonth}
+              isItToday={this.isItToday}
+              fixEventText={this.fixEventText}
               getClassName={this.getClassName}
+              isTodayHoliday={this.isTodayHoliday}
               monthChangeHandler={this.monthChangeHandler}
               backToTodayHandler={this.backToTodayHandler}
               daysClickHandler={this.daysClickHandler}
-              isItToday={this.isItToday}
-              isTodayHoliday={this.isTodayHoliday}
-              fixEventText={this.fixEventText}
             />
           )}
         </div>
