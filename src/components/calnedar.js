@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/calendar.sass"
 import NextLight from "../assets/icons/navigate_next-light.svg";
 import NextDark from "../assets/icons/navigate_next-dark.svg";
 import BeforeLight from "../assets/icons/navigate_before-light.svg";

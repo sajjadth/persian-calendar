@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/loading.sass";
 
 class Loading extends React.Component {
   render() {
