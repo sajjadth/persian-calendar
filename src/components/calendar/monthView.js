@@ -1,11 +1,10 @@
+import "../../styles/monthView.sass";
 import React from "react";
-import "../styles/calendar.sass"
-import NextLight from "../assets/icons/navigate_next-light.svg";
-import NextDark from "../assets/icons/navigate_next-dark.svg";
-import BeforeLight from "../assets/icons/navigate_before-light.svg";
-import BeforeDark from "../assets/icons/navigate_before-dark.svg";
-
-class Calendar extends React.Component {
+import NextLight from "../../assets/icons/navigate_next-light.svg";
+import NextDark from "../../assets/icons/navigate_next-dark.svg";
+import BeforeLight from "../../assets/icons/navigate_before-light.svg";
+import BeforeDark from "../../assets/icons/navigate_before-dark.svg";
+class MonthView extends React.Component {
   constructor(props) {
     super(props);
     this.state = { daysOfWeek: ["شنبه", "یک", "دو", "سه", "چهار", "پنج", "جمعه"] };
@@ -62,13 +61,13 @@ class Calendar extends React.Component {
                   day.disabled
                     ? this.props.getClassName("disabled")
                     : `day-${this.props.theme}
-                        ${
-                          day.events.isHoliday && this.props.isTodayHoliday(day.day.jalali)
-                            ? "today-holiday"
-                            : day.events.isHoliday
-                            ? "holiday"
-                            : null
-                        }`
+                          ${
+                            day.events.isHoliday && this.props.isTodayHoliday(day.day.jalali)
+                              ? "today-holiday"
+                              : day.events.isHoliday
+                              ? "holiday"
+                              : null
+                          }`
                 }
                 id={
                   !day.disabled && this.props.isTodayHoliday(day.day.jalali)
@@ -108,4 +107,4 @@ class Calendar extends React.Component {
   }
 }
 
-export default Calendar;
+export default MonthView;

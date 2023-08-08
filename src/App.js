@@ -2,7 +2,7 @@ import "./App.sass";
 import React from "react";
 import Loading from "./components/loading";
 import Error from "./components/error";
-import Calendar from "./components/calnedar";
+import Calendar from "./components/calendar/calnedar";
 
 class App extends React.Component {
   constructor(props) {
