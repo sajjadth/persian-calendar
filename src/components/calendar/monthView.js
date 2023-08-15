@@ -1,106 +1,158 @@
-import "../../styles/monthView.sass";
 import React from "react";
-import NextLight from "../../assets/icons/navigate_next-light.svg";
+import styles from "../../styles/monthView.module.sass";
 import NextDark from "../../assets/icons/navigate_next-dark.svg";
-import BeforeLight from "../../assets/icons/navigate_before-light.svg";
+import NextLight from "../../assets/icons/navigate_next-light.svg";
 import BeforeDark from "../../assets/icons/navigate_before-dark.svg";
+import BeforeLight from "../../assets/icons/navigate_before-light.svg";
+
 class MonthView extends React.Component {
   constructor(props) {
     super(props);
     this.state = { daysOfWeek: ["شنبه", "یک", "دو", "سه", "چهار", "پنج", "جمعه"] };
   }
   p2e = (s) => String(s).replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+  getDayClassName(day) {
+    const { getClassName, isTodayHoliday } = this.props;
+
+    const themeClass = styles[getClassName("day")];
+
+    const holidayClass =
+      day.events.isHoliday && isTodayHoliday(day.day.jalali)
+        ? styles["todayHoliday"]
+        : day.events.isHoliday
+        ? styles["holiday"]
+        : "";
+
+    return `${themeClass} ${holidayClass}`.trim();
+  }
+  daysSelectedStyleHandler(e) {
+    const id = `day${e}`;
+    const day = document.getElementById(id);
+    if (day) {
+      console.log(this.props.selectedDayStyle);
+      if (!this.props.selectedDayStyle)
+        day.classList.add(styles[this.props.getClassName("selected")]);
+      else {
+        document
+          .getElementById(`day${this.props.selectedDayStyle}`)
+          .classList.remove(styles[this.props.getClassName("selected")]);
+        day.classList.add(styles[this.props.getClassName("selected")]);
+      }
+    } else {
+      document
+        .getElementById(`day${this.props.selectedDayStyle}`)
+        .classList.remove(styles[this.props.getClassName("selected")]);
+    }
+  }
+  backToTodayHandler() {
+    if (this.props.selectedDayStyle)
+      document
+        .getElementById(`day${this.props.selectedDayStyle}`)
+        .classList.remove(styles[this.props.getClassName("selected")]);
+    this.props.backToTodayHandler();
+  }
+  monthChangeHandler(e) {
+    if (this.props.selectedDayStyle)
+      document
+        .getElementById(`day${this.props.selectedDayStyle}`)
+        .classList.remove(styles[this.props.getClassName("selected")]);
+    this.props.monthChangeHandler(e);
+    if (this.props.isItToday()) this.props.getTodayEvents(this.props.day);
+  }
   render() {
     return (
       <React.Fragment>
-        <div id="calendar-header">
-          <img
-            onClick={(e) => this.props.monthChangeHandler(e)}
-            id={this.props.getClassName("previous")}
-            src={this.props.theme === "dark" ? BeforeDark : BeforeLight}
-            alt="previous"
-          />
-          <div id={this.props.getClassName("calendar-header-details")}>
-            <p id="calendar-header-jalali">{this.props.currentMonth.header.jalali}</p>
-            <div id="secandary-header-details">
-              <p id="calendar-header-miladi">{this.props.currentMonth.header.gregorian}</p>
-              <p id="calendar-header-qamari">{this.props.currentMonth.header.hijri}</p>
-            </div>
-            <p
-              className={
-                this.props.isItToday() ? this.props.getClassName("back-to-today-disabled") : null
-              }
-              id={this.props.getClassName("back-to-today")}
-              onClick={this.props.backToTodayHandler}
-            >
-              {this.props.isItToday() ? null : "برو به "}
-              امروز
-            </p>
-          </div>
-          <img
-            onClick={(e) => this.props.monthChangeHandler(e)}
-            id={this.props.getClassName("next")}
-            src={this.props.theme === "dark" ? NextDark : NextLight}
-            alt="next"
-          />
-        </div>
-        <hr className="divider" />
-        <div id="calendar-main">
-          {this.state.daysOfWeek.map((dayOfWeek, i) => {
-            return (
-              <p className={this.props.getClassName("days-of-week")} key={i}>
-                {dayOfWeek}
-              </p>
-            );
-          })}
-          {this.props.currentMonth.days.map((day, i) => {
-            return (
-              <div
-                key={i}
-                className={
-                  day.disabled
-                    ? this.props.getClassName("disabled")
-                    : `day-${this.props.theme}
-                          ${
-                            day.events.isHoliday && this.props.isTodayHoliday(day.day.jalali)
-                              ? "today-holiday"
-                              : day.events.isHoliday
-                              ? "holiday"
-                              : null
-                          }`
-                }
-                id={
-                  !day.disabled && this.props.isTodayHoliday(day.day.jalali)
-                    ? this.props.getClassName("today")
-                    : !day.disabled
-                    ? "day" + String(this.p2e(day.day.jalali))
-                    : null
-                }
-                onClick={!day.disabled ? (e) => this.props.daysClickHandler(e) : null}
-              >
-                <p className="jalali">{day.day.jalali}</p>
-                <div className="secandary-day">
-                  <span className="miladi">{day.day.gregorian}</span>
-                  <span className="qamari">{day.day.hijri}</span>
-                </div>
+        <div id={styles[this.props.getClassName("calendar")]}>
+          <div id={styles["calendarHeader"]}>
+            <img
+              onClick={() => this.monthChangeHandler("previous")}
+              id={styles[this.props.getClassName("previous")]}
+              src={this.props.theme === "dark" ? BeforeDark : BeforeLight}
+              alt="previous"
+            />
+            <div id={styles[this.props.getClassName("calendarHeaderDetails")]}>
+              <p id={styles["calendarHeaderJalali"]}>{this.props.currentMonth.header.jalali}</p>
+              <div id={styles["secandaryHeaderDetails"]}>
+                <p id={styles["calendarHeaderMiladi"]}>
+                  {this.props.currentMonth.header.gregorian}
+                </p>
+                <p id={styles["calendarHeaderQamari"]}>{this.props.currentMonth.header.hijri}</p>
               </div>
-            );
-          })}
-        </div>
-        <hr className="divider" />
-        <div id="calendar-footer">
-          {this.props.todayEvents.length === 0 ? (
-            <p id={this.props.getClassName("no-event")}>.رویدادی برای نمایش وجود ندارد</p>
-          ) : (
-            this.props.todayEvents.map((e, i) => {
+              <p
+                className={
+                  styles[
+                    this.props.isItToday() ? this.props.getClassName("backToTodayDisabled") : null
+                  ]
+                }
+                id={styles[this.props.getClassName("backToToday")]}
+                onClick={() => this.backToTodayHandler()}
+              >
+                {this.props.isItToday() ? null : "برو به "}
+                امروز
+              </p>
+            </div>
+            <img
+              onClick={() => this.monthChangeHandler("next")}
+              id={styles[this.props.getClassName("next")]}
+              src={this.props.theme === "dark" ? NextDark : NextLight}
+              alt="next"
+            />
+          </div>
+          <hr className={styles["divider"]} />
+          <div id={styles["calendarMain"]}>
+            {this.state.daysOfWeek.map((dayOfWeek, i) => {
               return (
-                <p className={this.props.getClassName("events")} key={i}>
-                  {e.event}
-                  {e.isHoliday ? <span className="red-text"> (تعطیل)</span> : null}
+                <p className={styles[this.props.getClassName("daysOfWeek")]} key={i}>
+                  {dayOfWeek}
                 </p>
               );
-            })
-          )}
+            })}
+            {this.props.currentMonth.days.map((day, i) => {
+              return (
+                <button
+                  key={i}
+                  className={this.getDayClassName(day)}
+                  disabled={day.disabled}
+                  id={
+                    !day.disabled && this.props.isTodayHoliday(day.day.jalali)
+                      ? styles[this.props.getClassName("today")]
+                      : !day.disabled
+                      ? "day" + String(this.p2e(day.day.jalali))
+                      : null
+                  }
+                  onClick={
+                    !day.disabled
+                      ? () => {
+                          this.props.daysClickHandler(this.p2e(day.day.jalali));
+                          this.daysSelectedStyleHandler(this.p2e(day.day.jalali));
+                        }
+                      : null
+                  }
+                >
+                  <p className={styles["jalali"]}>{day.day.jalali}</p>
+                  <div className={styles["secandaryDay"]}>
+                    <span className={styles["miladi"]}>{day.day.gregorian}</span>
+                    <span className={styles["qamari"]}>{day.day.hijri}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+          <hr className={styles["divider"]} />
+          <div id={styles["calendarFooter"]}>
+            {this.props.todayEvents.length === 0 ? (
+              <p id={styles[this.props.getClassName("noEvent")]}>.رویدادی برای نمایش وجود ندارد</p>
+            ) : (
+              this.props.todayEvents.map((e, i) => {
+                return (
+                  <p className={styles[this.props.getClassName("events")]} key={i}>
+                    {e.event}
+                    {e.isHoliday ? <span className={styles["redText"]}> (تعطیل)</span> : null}
+                  </p>
+                );
+              })
+            )}
+          </div>
         </div>
       </React.Fragment>
     );

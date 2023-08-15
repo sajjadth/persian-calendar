@@ -39,6 +39,7 @@ class App extends React.Component {
     return (
       this.state.selectedMonth === this.state.month &&
       this.state.selectedYear === this.state.year &&
+      this.state.selectedDay === this.state.day &&
       !this.state.selectedDayStyle
     );
   }
@@ -63,10 +64,12 @@ class App extends React.Component {
         () => this.setState({ loading: false })
       );
     } else {
-      let e =
-        this.state.currentMonth.days[this.state.currentMonth.startIndex - 1 + day].events.list;
       if (day === 0) this.setState({ todayEvents: [] }, () => this.setState({ loading: false }));
-      else this.setState({ todayEvents: e }, () => this.setState({ loading: false }));
+      else {
+        let e =
+          this.state.currentMonth.days[this.state.currentMonth.startIndex - 1 + day].events.list;
+        this.setState({ todayEvents: e }, () => this.setState({ loading: false }));
+      }
     }
   }
   async getData(year) {
@@ -99,35 +102,13 @@ class App extends React.Component {
     }
   }
   getClassName(name) {
-    return `${name}-${this.state.theme}`;
+    const t = this.state.theme;
+    const theme = t.slice(0, 1).toUpperCase() + t.slice(1, t.length).toLowerCase();
+    return `${name}${theme}`;
   }
   daysClickHandler(e) {
-    let target =
-      e.target.classList.contains("secandary-day") || e.target.classList.contains("jalali")
-        ? e.target.parentNode
-        : e.target.classList.contains("qamari") || e.target.classList.contains("miladi")
-        ? e.target.parentNode.parentNode
-        : e.target;
-    target = target.id;
-    if (target !== this.getClassName("today")) {
-      if (!this.state.selectedDayStyle)
-        document.getElementById(target).classList.add(this.getClassName("selected"));
-      else {
-        document
-          .getElementById(this.state.selectedDayStyle)
-          .classList.remove(this.getClassName("selected"));
-        document.getElementById(target).classList.add(this.getClassName("selected"));
-      }
-      this.setState({ selectedDayStyle: target });
-    } else {
-      document
-        .getElementById(this.state.selectedDayStyle)
-        .classList.remove(this.getClassName("selected"));
-      this.setState({ selectedDayStyle: null });
-    }
-    this.getTodayEvents(
-      Number(this.p2e(document.getElementById(target).childNodes[0].textContent))
-    );
+    this.setState({ selectedDayStyle: e ? Number(e) : null });
+    this.getTodayEvents(Number(e));
   }
   onChangeMonthCheckForEvents(year) {
     if (year) this.getData(year);
@@ -139,14 +120,8 @@ class App extends React.Component {
     else this.getTodayEvents(0);
   }
   monthChangeHandler(e) {
-    if (this.state.selectedDayStyle)
-      document
-        .getElementById(this.state.selectedDayStyle)
-        .classList.remove(this.getClassName("selected"));
-    this.setState({ selectedDayStyle: null }, () => {
-      if (document.getElementById(this.getClassName("today"))) this.getTodayEvents(this.state.day);
-    });
-    switch (e.target.id.split("-")[0]) {
+    this.setState({ selectedDayStyle: null });
+    switch (e) {
       case "next":
         const nextMonth = this.state.selectedMonth === 12 ? 1 : this.state.selectedMonth + 1;
         const nextYear = this.state.selectedMonth === 12 ? this.state.selectedYear + 1 : null;
@@ -190,10 +165,6 @@ class App extends React.Component {
       this.state.selectedYear !== this.state.year ||
       this.state.selectedMonth !== this.state.month
     ) {
-      if (this.state.selectedDayStyle)
-        document
-          .getElementById(this.state.selectedDayStyle)
-          .classList.remove(this.getClassName("selected"));
       this.setState(
         (prevState) => ({
           selectedDayStyle: null,
@@ -212,31 +183,32 @@ class App extends React.Component {
   render() {
     return (
       <div id={this.getClassName("main")}>
-        <div id={this.getClassName("calendar")}>
-          {this.state.loading ? (
-            <Loading />
-          ) : this.state.error ? (
-            <Error
-              theme={this.state.theme}
-              errorMessage={this.state.errorMessage}
-              retryHandler={this.retryHandler}
-            />
-          ) : (
-            <Calendar
-              theme={this.state.theme}
-              selectedDay={this.state.selectedDay}
-              todayEvents={this.state.todayEvents}
-              currentMonth={this.state.currentMonth}
-              isItToday={this.isItToday}
-              fixEventText={this.fixEventText}
-              getClassName={this.getClassName}
-              isTodayHoliday={this.isTodayHoliday}
-              monthChangeHandler={this.monthChangeHandler}
-              backToTodayHandler={this.backToTodayHandler}
-              daysClickHandler={this.daysClickHandler}
-            />
-          )}
-        </div>
+        {this.state.loading ? (
+          <Loading />
+        ) : this.state.error ? (
+          <Error
+            theme={this.state.theme}
+            errorMessage={this.state.errorMessage}
+            retryHandler={this.retryHandler}
+          />
+        ) : (
+          <Calendar
+            theme={this.state.theme}
+            selectedDay={this.state.selectedDay}
+            todayEvents={this.state.todayEvents}
+            currentMonth={this.state.currentMonth}
+            selectedDayStyle={this.state.selectedDayStyle}
+            isItToday={this.isItToday}
+            fixEventText={this.fixEventText}
+            getClassName={this.getClassName}
+            isTodayHoliday={this.isTodayHoliday}
+            monthChangeHandler={this.monthChangeHandler}
+            backToTodayHandler={this.backToTodayHandler}
+            daysClickHandler={this.daysClickHandler}
+            getTodayEvents={this.getTodayEvents}
+            day={this.state.day}
+          />
+        )}
       </div>
     );
   }

@@ -16,6 +16,9 @@ class Calendar extends React.Component {
           monthChangeHandler={this.props.monthChangeHandler}
           backToTodayHandler={this.props.backToTodayHandler}
           daysClickHandler={this.props.daysClickHandler}
+          selectedDayStyle={this.props.selectedDayStyle}
+          getTodayEvents={this.props.getTodayEvents}
+          day={this.props.day}
         />
       </React.Fragment>
     );

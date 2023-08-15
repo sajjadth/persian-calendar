@@ -1,0 +1,252 @@
+@import "variables"
+
+#calendarLight, #calendarDark
+    width: 340px
+    min-height: 500px
+    background: $dark-theme-calendar-background-color
+    border-radius: 22.5px
+    display: grid
+    align-items: center
+    justify-items: center
+#calendarLight
+    background: $light-theme-calendar-background-color
+    box-shadow: 10px 10px 20px #e6e6e6, -10px -10px 20px #ffffff
+
+#calendarMain
+    min-height: 290px
+    display: grid
+    grid-template-columns: repeat(7, 1fr)
+    align-items: center
+    justify-content: center
+    grid-gap: 2.5px
+    direction: rtl
+    -webkit-user-select: none
+    -ms-user-select: none
+    user-select: none
+
+#calendarHeader
+    height: 110px
+    width: 95%
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-between
+    -webkit-user-select: none
+    -ms-user-select: none
+    user-select: none
+
+    #calendarHeaderDetailsLight,
+    #calendarHeaderDetailsDark
+        height: 100%
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: space-evenly
+        > *
+            color: $light-theme-today-and-selected-text-and-texts-color
+
+        > *
+            color: $dark-theme-today-and-selected-text-and-texts-color
+
+    #calendarHeaderJalali
+        margin: 0px
+        text-align: center
+        font-size: 22.5px
+        font-weight: bold
+    #calendarHeaderMiladi,
+    #calendarHeaderQamari
+        margin: 0px
+        text-align: center
+        font-size: 10px
+
+#calendarFooter
+    min-height: 30px
+    width: 95%
+    display: grid
+    align-items: flex-start
+    margin-bottom: 15px
+    padding-right: 5px
+
+.dayLight, .dayDark
+    border: none
+    padding: 0
+    background: none
+    cursor: pointer
+    display: inline-block
+    margin: 0
+    font: inherit
+    text-align: inherit
+    color: inherit
+
+    width: 45px
+    height: 45px
+    display: grid
+    align-items: center
+    justify-items: center
+    grid-auto-flow: row
+    gap: 2.5px
+    color: $light-theme-today-and-selected-text-and-texts-color
+    border-radius: 100%
+    &:hover:not(.disabledLight), &:hover:not(.disabledDark)
+        background: $light-theme-selected-background-color
+        cursor: pointer
+        transition: all 0.25s
+
+    &:active:not(.disabledLight), &:active:not(.disabledDark)
+        background: $light-theme-active-background-color
+        transition: all 0.05s
+
+.dayDark
+    color: $dark-theme-today-and-selected-text-and-texts-color
+    &:hover:not(.disabledDark)
+        background: $dark-theme-selected-background-color
+
+    &:active:not(.disabledDark)
+        background: $dark-theme-active-background-color
+
+.jalali
+    font-weight: bold
+    text-align: center
+    margin: 0
+
+.secandaryDay
+    display: grid
+    grid-auto-flow: column
+    font-size: 10px
+    justify-content: space-evenly
+    width: 85%
+
+.dayLigh
+    &t:disabled
+        color: $light-theme-disabled-text-color
+        &:hover
+            cursor: default
+            background: none
+
+.dayDark
+    &:disabled
+        color: $dark-theme-disabled-text-color
+        &:hover
+            cursor: default
+            background: none
+
+#todayLight
+    background: $dark-and-light-theme-today-background-color
+    color: $light-theme-calendar-background-color
+    border-radius: 100%
+
+#todayDark
+    background: $dark-and-light-theme-today-background-color
+    border-radius: 100%
+
+.divider
+    align-self: center
+    width: 80%
+    margin: 15px
+    background: #c2c2c2
+    height: 0.5px
+    border: none
+
+.eventsLight, .eventsDark
+    direction: rtl
+    color: $light-theme-today-and-selected-text-and-texts-color
+    margin: 0
+    padding-top: 2.5px
+    padding-bottom: 2.5px
+    font-size: 12.5px
+
+.eventsDark
+    color: $dark-theme-today-and-selected-text-and-texts-color
+
+.holiday
+    color: $dark-and-light-theme-holiday-text-color
+
+.todayHoliday
+    background: $dark-and-light-theme-holiday-text-color !important
+
+.daysOfWeekLight, .daysOfWeekDark
+    color: $light-theme-today-and-selected-text-and-texts-color
+    margin: 0
+    text-align: center
+    width: 45px
+    font-size: 15px
+    height: 22.5px
+    font-weight: bold
+
+.daysOfWeekDark
+    color: $dark-theme-today-and-selected-text-and-texts-color
+
+#noEventLight, #noEventDark
+    text-align: center
+    color: $light-theme-today-and-selected-text-and-texts-color
+    margin: 0
+    font-size: 12.5px
+
+#noEventDark
+    color: $dark-theme-today-and-selected-text-and-texts-color
+
+#nextLight, #nextDark, #previousLight, #previousDark
+    border-radius: 100%
+    &:hover
+        cursor: pointer
+        transition: all 0.25s
+        background: $light-theme-selected-background-color
+
+    &:active
+        background: $light-theme-active-background-color
+        transition: all 0.05s
+
+#nextDark:hover, #previousDark:hover
+    background: $dark-theme-selected-background-color
+
+#nextDark:active, #previousDark:active
+    background: $dark-theme-active-background-color
+
+.selectedLight,.selectedDark
+    background: rgba(73, 56, 255, 0.1)
+    background: $light-theme-selected-background-color
+
+.selectedDark
+    background-color: $dark-theme-selected-background-color
+
+.redText
+    color: $dark-and-light-theme-holiday-text-color
+    white-space: pre-wrap
+#backToTodayLight, #backToTodayDark
+    cursor: pointer
+    color: $light-theme-today-and-selected-text-and-texts-color
+    margin: 0px
+    font-size: 12.5px
+    text-align: center
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 25px
+    width: 100%
+    padding: 1.5px
+    font-weight: bold
+    transition: all 0.25s
+
+#backToTodayDark
+    color: $dark-theme-today-and-selected-text-and-texts-color
+
+#backToTodayLight:hover
+    background: $light-theme-selected-background-color
+#backToTodayLight:active
+    background: $light-theme-active-background-color
+#backToTodayDark:hover
+    background: $dark-theme-selected-background-color
+#backToTodayDark:active
+    background: $dark-theme-active-background-color
+
+#backToTodayIconLight, #backToTodayIconDark
+    margin-right: 5px
+    width: 17.5px
+    height: 17.5px
+
+.backToTodayDisabledLight
+    cursor: default !important
+    background-color: $light-theme-selected-background-color
+.backToTodayDisabledDark
+    cursor: default !important
+    background-color: $dark-theme-selected-background-color
