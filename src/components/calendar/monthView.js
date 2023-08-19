@@ -1,23 +1,26 @@
 import React from "react";
+import { connect } from "react-redux";
 import styles from "../../styles/monthView.module.sass";
 import NextDark from "../../assets/icons/navigate_next-dark.svg";
 import NextLight from "../../assets/icons/navigate_next-light.svg";
 import BeforeDark from "../../assets/icons/navigate_before-dark.svg";
 import BeforeLight from "../../assets/icons/navigate_before-light.svg";
+import { getClassName, p2e, isItToday, isTodayHoliday } from "../../selectors";
+import {
+  backToTodayHandler,
+  daysClickHandler,
+  monthChangeHandler,
+  getTodayEvents,
+  getData,
+} from "../../reducer/calendarSlice";
 
 class MonthView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { daysOfWeek: ["شنبه", "یک", "دو", "سه", "چهار", "پنج", "جمعه"] };
-  }
-  p2e = (s) => String(s).replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
   getDayClassName(day) {
-    const { getClassName, isTodayHoliday } = this.props;
-
-    const themeClass = styles[getClassName("day")];
+    const { theme } = this.props.calendar;
+    const themeClass = styles[getClassName(theme, "day")];
 
     const holidayClass =
-      day.events.isHoliday && isTodayHoliday(day.day.jalali)
+      day.events.isHoliday && isTodayHoliday(this.props.calendar, day.day.jalali)
         ? styles["todayHoliday"]
         : day.events.isHoliday
         ? styles["holiday"]
@@ -26,105 +29,114 @@ class MonthView extends React.Component {
     return `${themeClass} ${holidayClass}`.trim();
   }
   daysSelectedStyleHandler(e) {
+    const { selectedDayStyle, theme } = this.props.calendar;
+    const { daysClickHandler } = this.props;
+    daysClickHandler(e);
     const id = `day${e}`;
-    const day = document.getElementById(id);
-    if (day) {
-      console.log(this.props.selectedDayStyle);
-      if (!this.props.selectedDayStyle)
-        day.classList.add(styles[this.props.getClassName("selected")]);
+    const d = document.getElementById(id);
+    if (d) {
+      if (!selectedDayStyle) d.classList.add(styles[getClassName(theme, "selected")]);
       else {
         document
-          .getElementById(`day${this.props.selectedDayStyle}`)
-          .classList.remove(styles[this.props.getClassName("selected")]);
-        day.classList.add(styles[this.props.getClassName("selected")]);
+          .getElementById(`day${selectedDayStyle}`)
+          .classList.remove(styles[getClassName(theme, "selected")]);
+        d.classList.add(styles[getClassName(theme, "selected")]);
       }
     } else {
       document
-        .getElementById(`day${this.props.selectedDayStyle}`)
-        .classList.remove(styles[this.props.getClassName("selected")]);
+        .getElementById(`day${selectedDayStyle}`)
+        .classList.remove(styles[getClassName(theme, "selected")]);
     }
   }
   backToTodayHandler() {
-    if (this.props.selectedDayStyle)
+    const { selectedDayStyle, theme, selectedYear, year } = this.props.calendar;
+    const { backToTodayHandler, getData } = this.props;
+    if (selectedDayStyle)
       document
-        .getElementById(`day${this.props.selectedDayStyle}`)
-        .classList.remove(styles[this.props.getClassName("selected")]);
-    this.props.backToTodayHandler();
+        .getElementById(`day${selectedDayStyle}`)
+        .classList.remove(styles[getClassName(theme, "selected")]);
+    if (selectedYear !== year) getData(year);
+    backToTodayHandler();
   }
-  monthChangeHandler(e) {
-    if (this.props.selectedDayStyle)
+  monthChangeStyleHandler(e) {
+    const { selectedDayStyle, theme, day, selectedMonth, selectedYear } = this.props.calendar;
+    const { monthChangeHandler, getClassName, getTodayEvents, getData } = this.props;
+
+    if (selectedDayStyle)
       document
-        .getElementById(`day${this.props.selectedDayStyle}`)
-        .classList.remove(styles[this.props.getClassName("selected")]);
-    this.props.monthChangeHandler(e);
-    if (this.props.isItToday()) this.props.getTodayEvents(this.props.day);
+        .getElementById(`day${selectedDayStyle}`)
+        .classList.remove(styles[getClassName(theme, "selected")]);
+    if (e === "next" && selectedMonth === 12) getData(selectedYear + 1);
+    if (e === "previous" && selectedMonth === 1) getData(selectedYear - 1);
+    monthChangeHandler(e);
+    if (isItToday(this.props.calendar)) getTodayEvents(day);
   }
   render() {
+    const { theme, currentMonth, todayEvents, daysOfWeek } = this.props.calendar;
     return (
       <React.Fragment>
-        <div id={styles[this.props.getClassName("calendar")]}>
+        <div id={styles[getClassName(theme, "calendar")]}>
           <div id={styles["calendarHeader"]}>
             <img
-              onClick={() => this.monthChangeHandler("previous")}
-              id={styles[this.props.getClassName("previous")]}
-              src={this.props.theme === "dark" ? BeforeDark : BeforeLight}
+              onClick={() => this.monthChangeStyleHandler("previous")}
+              id={styles[getClassName(theme, "previous")]}
+              src={theme === "dark" ? BeforeDark : BeforeLight}
               alt="previous"
             />
-            <div id={styles[this.props.getClassName("calendarHeaderDetails")]}>
-              <p id={styles["calendarHeaderJalali"]}>{this.props.currentMonth.header.jalali}</p>
+            <div id={styles[getClassName(theme, "calendarHeaderDetails")]}>
+              <p id={styles["calendarHeaderJalali"]}>{currentMonth.header.jalali}</p>
               <div id={styles["secandaryHeaderDetails"]}>
-                <p id={styles["calendarHeaderMiladi"]}>
-                  {this.props.currentMonth.header.gregorian}
-                </p>
-                <p id={styles["calendarHeaderQamari"]}>{this.props.currentMonth.header.hijri}</p>
+                <p id={styles["calendarHeaderMiladi"]}>{currentMonth.header.gregorian}</p>
+                <p id={styles["calendarHeaderQamari"]}>{currentMonth.header.hijri}</p>
               </div>
               <p
                 className={
                   styles[
-                    this.props.isItToday() ? this.props.getClassName("backToTodayDisabled") : null
+                    isItToday(this.props.calendar)
+                      ? getClassName(theme, "backToTodayDisabled")
+                      : null
                   ]
                 }
-                id={styles[this.props.getClassName("backToToday")]}
+                id={styles[getClassName(theme, "backToToday")]}
                 onClick={() => this.backToTodayHandler()}
               >
-                {this.props.isItToday() ? null : "برو به "}
+                {isItToday(this.props.calendar) ? null : "برو به "}
                 امروز
               </p>
             </div>
             <img
-              onClick={() => this.monthChangeHandler("next")}
-              id={styles[this.props.getClassName("next")]}
-              src={this.props.theme === "dark" ? NextDark : NextLight}
+              onClick={() => this.monthChangeStyleHandler("next")}
+              id={styles[getClassName(theme, "next")]}
+              src={theme === "dark" ? NextDark : NextLight}
               alt="next"
             />
           </div>
           <hr className={styles["divider"]} />
           <div id={styles["calendarMain"]}>
-            {this.state.daysOfWeek.map((dayOfWeek, i) => {
+            {daysOfWeek.map((dayOfWeek, i) => {
               return (
-                <p className={styles[this.props.getClassName("daysOfWeek")]} key={i}>
+                <p className={styles[getClassName(theme, "daysOfWeek")]} key={i}>
                   {dayOfWeek}
                 </p>
               );
             })}
-            {this.props.currentMonth.days.map((day, i) => {
+            {currentMonth.days.map((day, i) => {
               return (
                 <button
                   key={i}
                   className={this.getDayClassName(day)}
                   disabled={day.disabled}
                   id={
-                    !day.disabled && this.props.isTodayHoliday(day.day.jalali)
-                      ? styles[this.props.getClassName("today")]
+                    !day.disabled && isTodayHoliday(this.props.calendar, day.day.jalali)
+                      ? styles[getClassName(theme, "today")]
                       : !day.disabled
-                      ? "day" + String(this.p2e(day.day.jalali))
+                      ? "day" + String(p2e(day.day.jalali))
                       : null
                   }
                   onClick={
                     !day.disabled
                       ? () => {
-                          this.props.daysClickHandler(this.p2e(day.day.jalali));
-                          this.daysSelectedStyleHandler(this.p2e(day.day.jalali));
+                          this.daysSelectedStyleHandler(p2e(day.day.jalali));
                         }
                       : null
                   }
@@ -140,12 +152,12 @@ class MonthView extends React.Component {
           </div>
           <hr className={styles["divider"]} />
           <div id={styles["calendarFooter"]}>
-            {this.props.todayEvents.length === 0 ? (
-              <p id={styles[this.props.getClassName("noEvent")]}>.رویدادی برای نمایش وجود ندارد</p>
+            {todayEvents.length === 0 ? (
+              <p id={styles[getClassName(theme, "noEvent")]}>.رویدادی برای نمایش وجود ندارد</p>
             ) : (
-              this.props.todayEvents.map((e, i) => {
+              todayEvents.map((e, i) => {
                 return (
-                  <p className={styles[this.props.getClassName("events")]} key={i}>
+                  <p className={styles[getClassName(theme, "events")]} key={i}>
                     {e.event}
                     {e.isHoliday ? <span className={styles["redText"]}> (تعطیل)</span> : null}
                   </p>
@@ -159,4 +171,14 @@ class MonthView extends React.Component {
   }
 }
 
-export default MonthView;
+const mapStateToProps = (state) => {
+  return { calendar: state.calendar };
+};
+const mapDispatchToProps = {
+  backToTodayHandler,
+  daysClickHandler,
+  monthChangeHandler,
+  getTodayEvents,
+  getData,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(MonthView);
