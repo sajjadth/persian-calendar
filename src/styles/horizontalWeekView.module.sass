@@ -1,40 +1,48 @@
 @import "variables"
-#calendar-light, #calendar-dark
-    width: 340px
-    min-height: 500px
+
+#calendarLight, #calendarDark
+    width: 95%
+    min-width: 1000px
+    min-height: 150px
     background: $dark-theme-calendar-background-color
     border-radius: 22.5px
-    display: grid
+    display: flex
     align-items: center
-    justify-items: center
+    justify-content: space-between
+    padding: 5px
 
-#calendar-light
+#calendarLight
     background: $light-theme-calendar-background-color
     box-shadow: 10px 10px 20px #e6e6e6, -10px -10px 20px #ffffff
 
-#calendar-main
-    min-height: 290px
+#calendarMain
+    min-height: 150px
+    min-width: 355px
+    width: 35%
+    padding: 5px
     display: grid
     grid-template-columns: repeat(7, 1fr)
     align-items: center
-    justify-content: center
+    justify-content: space-evenly
     grid-gap: 2.5px
     direction: rtl
     -webkit-user-select: none
     -ms-user-select: none
     user-select: none
 
-#calendar-header
-    height: 110px
-    width: 95%
+#calendarHeader
+    min-height: 150px
+    height: 150px
+    min-width: 85px
+    width: 16%
     display: flex
     flex-direction: row
     align-items: center
-    justify-content: space-between
+    justify-content: center
     -webkit-user-select: none
     -ms-user-select: none
     user-select: none
-    &-details-light, &-details-dark
+    #calendarHeaderDetailsLight, #calendarHeaderDetailsDark
         height: 100%
         display: flex
         flex-direction: column
@@ -43,28 +51,53 @@
         > *
             color: $light-theme-today-and-selected-text-and-texts-color
 
-    &-details-dark > *
+    #calendarHeaderDetailsDark > *
         color: $dark-theme-today-and-selected-text-and-texts-color
 
-    &-jalali, &-miladi, &-qamari
+    #calendarHeaderJalali
         margin: 0px
         text-align: center
-
-    &-jalali
         font-size: 22.5px
         font-weight: bold
+    #calendarHeaderMiladi,
+    #calendarHeaderQamari
+        margin: 0px
+        text-align: center
+        font-size: 12.5px
 
-    &-miladi, &-qamari
-        font-size: 10px
-
-#calendar-footer
+#calendarFooter
     min-height: 30px
-    width: 95%
+    width: 35%
     display: grid
     align-items: flex-start
-    margin-bottom: 15px
-    padding-right: 5px
-.day-light, .day-dark
+    margin: 0
+    padding: 5px
+
+.mainDayLight, .mainDayDark
+    width: 45px
+    height: 77.5px
+    display: grid
+    align-items: center
+    justify-items: center
+    grid-auto-flow: row
+    gap: 2.5px
+    color: $light-theme-today-and-selected-text-and-texts-color
+    border-radius: 100%
+
+.mainDayDark
+    color: $dark-theme-today-and-selected-text-and-texts-color
+
+.dayLight, .dayDark
+    border: none
+    padding: 0
+    background: none
+    cursor: pointer
+    display: inline-block
+    margin: 0
+    font: inherit
+    text-align: inherit
+    color: inherit
+
     width: 45px
     height: 45px
     display: grid
@@ -74,21 +107,21 @@
     gap: 2.5px
     color: $light-theme-today-and-selected-text-and-texts-color
     border-radius: 100%
-    &:hover:not(.disabled-light), &:hover:not(.disabled-dark)
+    &:hover:not(.disabledLight), &:hover:not(.disabledDark)
         background: $light-theme-selected-background-color
         cursor: pointer
         transition: all 0.25s
 
-    &:active:not(.disabled-light), &:active:not(.disabled-dark)
+    &:active:not(.disabledLight), &:active:not(.disabledDark)
         background: $light-theme-active-background-color
         transition: all 0.05s
 
-.day-dark
+.dayDark
     color: $dark-theme-today-and-selected-text-and-texts-color
-    &:hover:not(.disabled-dark)
+    &:hover:not(.disabledDark)
         background: $dark-theme-selected-background-color
 
-    &:active:not(.disabled-dark)
+    &:active:not(.disabledDark)
         background: $dark-theme-active-background-color
 
 .jalali
@@ -96,54 +129,66 @@
     text-align: center
     margin: 0
 
-.secandary-day
+.secandaryDay
     display: grid
     grid-auto-flow: column
-    font-size: 10px
+    font-size: 12.5px
     justify-content: space-evenly
-    width: 85%
+    width: 95%
 
-.disabled-light
-    color: $light-theme-disabled-text-color
+.dayLigh
+    &t:disabled
+        color: $light-theme-disabled-text-color
+        &:hover
+            cursor: default
+            background: none
 
-.disabled-dark
+.dayDark
+    &:disabled
+        color: $dark-theme-disabled-text-color
+        &:hover
+            cursor: default
+            background: none
+
+.disabledDark
+    width: 95%
     color: $dark-theme-disabled-text-color
 
-#today-light
+#todayLight
     background: $dark-and-light-theme-today-background-color
     color: $light-theme-calendar-background-color
     border-radius: 100%
 
-#today-dark
+#todayDark
     background: $dark-and-light-theme-today-background-color
     border-radius: 100%
 
 .divider
     align-self: cneter
-    width: 80%
-    margin: 15px
+    height: 100px
+    margin: 0
     background: #c2c2c2
-    height: 0.5px
+    width: 0.5px
     border: none
+    // position: fixed
 
-.events-light, .events-dark
+.eventsLight, .eventsDark
     direction: rtl
     color: $light-theme-today-and-selected-text-and-texts-color
     margin: 0
-    padding-top: 2.5px
-    padding-bottom: 2.5px
+    padding-block: 2.5px
     font-size: 12.5px
 
-.events-dark
+.eventsDark
     color: $dark-theme-today-and-selected-text-and-texts-color
 
 .holiday
     color: $dark-and-light-theme-holiday-text-color
 
-.today-holiday
+.todayHoliday
     background: $dark-and-light-theme-holiday-text-color !important
 
-.days-of-week-light, .days-of-week-dark
+.daysOfWeekLight, .daysOfWeekDark
     color: $light-theme-today-and-selected-text-and-texts-color
     margin: 0
     text-align: center
@@ -152,19 +197,19 @@
     height: 22.5px
     font-weight: bold
 
-.days-of-week-dark
+.daysOfWeekDark
     color: $dark-theme-today-and-selected-text-and-texts-color
 
-#no-event-light, #no-event-dark
+#noEventLight, #noEventDark
     text-align: center
     color: $light-theme-today-and-selected-text-and-texts-color
     margin: 0
     font-size: 12.5px
 
-#no-event-dark
+#noEventDark
     color: $dark-theme-today-and-selected-text-and-texts-color
 
-#next-light, #next-dark, #previous-light, #previous-dark
+#nextLight, #nextDark, #previousLight, #previousDark
     border-radius: 100%
     &:hover
         cursor: pointer
@@ -175,23 +220,23 @@
         background: $light-theme-active-background-color
         transition: all 0.05s
 
-#next-dark:hover, #previous-dark:hover
+#nextDark:hover, #previousDark:hover
     background: $dark-theme-selected-background-color
 
-#next-dark:active, #previous-dark:active
+#nextDark:active, #previousDark:active
     background: $dark-theme-active-background-color
 
-.selected-light
+.selectedLight
     background: rgba(73, 56, 255, 0.1)
     background: $light-theme-selected-background-color
 
-.selected-dark
+.selectedDark
     background-color: $dark-theme-selected-background-color
 
-.red-text
+.redText
     color: $dark-and-light-theme-holiday-text-color
     white-space: pre-wrap
-#back-to-today-light, #back-to-today-dark
+#backToTodayLight, #backToTodayDark
     cursor: pointer
     color: $light-theme-today-and-selected-text-and-texts-color
     margin: 0px
@@ -206,28 +251,26 @@
     font-weight: bold
     transition: all 0.25s
 
-#back-to-today-dark
+#backToTodayDark
     color: $dark-theme-today-and-selected-text-and-texts-color
 
-#back-to-today, #back-to-today
-    &-light:hover
-        background: $light-theme-selected-background-color
-    &-light:active
-        background: $light-theme-active-background-color
-    &-dark:hover
-        background: $dark-theme-selected-background-color
-    &-dark:active
-        background: $dark-theme-active-background-color
+#backToTodayLight:hover
+    background: $light-theme-selected-background-color
+#backToTodayLight:active
+    background: $light-theme-active-background-color
+#backToTodayDark:hover
+    background: $dark-theme-selected-background-color
+#backToTodayDark:active
+    background: $dark-theme-active-background-color
 
-#back-to-today-icon-light, #back-to-today-icon-dark
+#backToTodayIconLight, #backToTodayIconDark
     margin-right: 5px
     width: 17.5px
     height: 17.5px
 
-.back-to-today-disabled
-    &-light
-        cursor: default !important
-        background-color: $light-theme-selected-background-color
-    &-dark
-        cursor: default !important
-        background-color: $dark-theme-selected-background-color
+.backToTodayDisabledLight
+    cursor: default !important
+    background-color: $light-theme-selected-background-color
+.backToTodayDisabledDark
+    cursor: default !important
+    background-color: $dark-theme-selected-background-color
