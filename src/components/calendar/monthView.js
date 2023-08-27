@@ -10,7 +10,6 @@ import {
   backToTodayHandler,
   daysClickHandler,
   monthChangeHandler,
-  getTodayEvents,
   getData,
 } from "../../reducer/calendarSlice";
 
@@ -59,8 +58,8 @@ class MonthView extends React.Component {
     backToTodayHandler();
   }
   monthChangeStyleHandler(e) {
-    const { selectedDayStyle, theme, day, selectedMonth, selectedYear } = this.props.calendar;
-    const { monthChangeHandler, getClassName, getTodayEvents, getData } = this.props;
+    const { selectedDayStyle, theme, selectedMonth, selectedYear } = this.props.calendar;
+    const { monthChangeHandler, getData } = this.props;
 
     if (selectedDayStyle)
       document
@@ -69,7 +68,6 @@ class MonthView extends React.Component {
     if (e === "next" && selectedMonth === 12) getData(selectedYear + 1);
     if (e === "previous" && selectedMonth === 1) getData(selectedYear - 1);
     monthChangeHandler(e);
-    if (isItToday(this.props.calendar)) getTodayEvents(day);
   }
   render() {
     const { theme, currentMonth, todayEvents, daysOfWeek } = this.props.calendar;
@@ -178,7 +176,6 @@ const mapDispatchToProps = {
   backToTodayHandler,
   daysClickHandler,
   monthChangeHandler,
-  getTodayEvents,
   getData,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MonthView);
