@@ -78,10 +78,10 @@ class MonthView extends React.Component {
         <div id={styles[getClassName(theme, "calendar")]}>
           <div id={styles["calendarHeader"]}>
             <img
-              onClick={() => this.monthChangeStyleHandler("previous")}
-              id={styles[getClassName(theme, "previous")]}
-              src={theme === "dark" ? BeforeDark : BeforeLight}
-              alt="previous"
+              onClick={() => this.monthChangeStyleHandler("next")}
+              id={styles[getClassName(theme, "next")]}
+              src={theme === "dark" ? NextDark : NextLight}
+              alt="next"
             />
             <div id={styles[getClassName(theme, "calendarHeaderDetails")]}>
               <p id={styles["calendarHeaderJalali"]}>{currentMonth.header.jalali}</p>
@@ -105,10 +105,10 @@ class MonthView extends React.Component {
               </p>
             </div>
             <img
-              onClick={() => this.monthChangeStyleHandler("next")}
-              id={styles[getClassName(theme, "next")]}
-              src={theme === "dark" ? NextDark : NextLight}
-              alt="next"
+              onClick={() => this.monthChangeStyleHandler("previous")}
+              id={styles[getClassName(theme, "previous")]}
+              src={theme === "dark" ? BeforeDark : BeforeLight}
+              alt="previous"
             />
           </div>
           <hr className={styles["divider"]} />

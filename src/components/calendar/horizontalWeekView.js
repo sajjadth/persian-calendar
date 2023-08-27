@@ -85,10 +85,10 @@ class HorizontalWeekView extends React.Component {
       <React.Fragment>
         <div id={styles[getClassName(theme, "calendar")]}>
           <img
-            onClick={() => this.weekChangeHandler("previous")}
-            id={styles[getClassName(theme, "previous")]}
-            src={theme === "dark" ? BeforeDark : BeforeLight}
-            alt="previous"
+            onClick={() => this.weekChangeHandler("next")}
+            id={styles[getClassName(theme, "next")]}
+            src={theme === "dark" ? NextDark : NextLight}
+            alt="next"
           />
           <div id={styles["calendarFooter"]}>
             {todayEvents.length === 0 ? (
@@ -164,10 +164,10 @@ class HorizontalWeekView extends React.Component {
           </div>
 
           <img
-            onClick={() => this.weekChangeHandler("next")}
-            id={styles[getClassName(theme, "next")]}
-            src={theme === "dark" ? NextDark : NextLight}
-            alt="next"
+            onClick={() => this.weekChangeHandler("previous")}
+            id={styles[getClassName(theme, "previous")]}
+            src={theme === "dark" ? BeforeDark : BeforeLight}
+            alt="previous"
           />
         </div>
       </React.Fragment>
