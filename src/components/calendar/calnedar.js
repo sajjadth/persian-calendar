@@ -2,6 +2,7 @@ import React from "react";
 import MonthView from "./monthView";
 import HorizontalWeekView from "./horizontalWeekView";
 import { connect } from "react-redux";
+import DayView from "./dayView";
 
 class Calendar extends React.Component {
   render() {
@@ -12,6 +13,8 @@ class Calendar extends React.Component {
           <MonthView />
         ) : view === "horizontal-week" ? (
           <HorizontalWeekView />
+        ) : view === "day" ? (
+          <DayView/>
         ) : null}
       </React.Fragment>
     );
@@ -21,4 +24,4 @@ class Calendar extends React.Component {
 const mapStateToPRops = (state) => {
   return { calendar: state.calendar };
 };
-export default connect(mapStateToPRops,{})(Calendar);
+export default connect(mapStateToPRops, {})(Calendar);

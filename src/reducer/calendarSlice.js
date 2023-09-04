@@ -41,7 +41,8 @@ export const calendarSlice = createSlice({
         params.forEach((p) => {
           const [key, value] = p.split("=");
           if (key === "theme" && value === "light") state.theme = value;
-          if (key === "view" && value === "horizontal-week") state.view = value;
+          if (key === "view" && (value === "horizontal-week" || value === "day"))
+            state.view = value;
           if (!state.view) state.view = "month";
         });
       }
@@ -58,6 +59,9 @@ export const calendarSlice = createSlice({
           calendarSlice.caseReducers.actionsBeforeMountingHorizontalWeekView(state);
           break;
         case "month":
+          calendarSlice.caseReducers.onChangeMonthCheckForEvents(state);
+          break;
+        case "day":
           calendarSlice.caseReducers.onChangeMonthCheckForEvents(state);
           break;
         default:

@@ -1,0 +1,161 @@
+@import "variables"
+
+#calendarLight, #calendarDark
+    width: 200px
+    min-height: 200px
+    height: auto
+    background: $dark-theme-calendar-background-color
+    border-radius: 22.5px
+    display: grid
+    grid-template-rows: auto 1fr
+    gap: 5px
+    padding: 5px
+
+#calendarLight
+    background: $light-theme-calendar-background-color
+    box-shadow: 10px 10px 20px #e6e6e6, -10px -10px 20px #ffffff
+
+#calendarMain
+    min-height: 150px
+    min-width: 355px
+    width: 35%
+    padding: 5px
+    display: grid
+    grid-template-columns: repeat(7, 1fr)
+    align-items: center
+    justify-content: space-evenly
+    grid-gap: 2.5px
+    direction: rtl
+    -webkit-user-select: none
+    -ms-user-select: none
+    user-select: none
+
+#calendarHeaderDark
+    background: #191919 !important
+#calendarHeaderDark,#calendarHeaderLight
+    height: 75px
+    width: 190px
+    background: #ededed
+    border-radius: 22.5px
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    -webkit-user-select: none
+    -ms-user-select: none
+    user-select: none
+    position: relative
+    #calendarHeaderDetailsLight, #calendarHeaderDetailsDark
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        justify-content: space-evenly
+        position: absolute
+        left: 7.5px
+        top: 5px
+        > *
+            color: $light-theme-today-and-selected-text-and-texts-color
+    #calendarHeaderDetailsDark > *
+        color: $dark-theme-today-and-selected-text-and-texts-color
+    #mainJalaliDark, #mainJalaliLight
+        position: absolute
+        right: 7.5px
+        bottom: 5px
+        font-size: 22.5px
+        font-weight: bold
+        display: flex
+        flex-direction: column
+        > *
+            color: $light-theme-today-and-selected-text-and-texts-color
+            height: 30px
+            margin: 0
+            display: flex
+            align-items: center
+            justify-content: flex-end
+    #mainJalaliDark >*
+        color: $dark-theme-today-and-selected-text-and-texts-color
+    #weekdayAndDayDark,
+    #weekdayAndDayLight
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: flex-end
+        >*
+            height: 30px
+            margin: 0
+        #weekdayDark,
+        #weekdayLight
+            display: flex
+            align-items: flex-end
+            font-size: 17.5px
+            font-weight: normal
+        #mainJalaliDay
+            display: flex
+            align-items: flex-start
+            padding: 0 5px
+        #mainJalaliTitle
+            padding: 0 5px
+    #calendarHeaderMiladi,
+    #calendarHeaderQamari
+        margin: 0px
+        text-align: center
+        font-size: 11px
+        padding: 0 5px
+
+#calendarFooterDark,#calendarFooterLight
+    background: #ededed
+    border-radius: 22.5px
+    min-height: 110px
+    width: 190px
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: flex-end
+    margin: 0
+    padding: 5px
+#calendarFooterDark
+    background: #191919 !important
+
+.eventsLight, .eventsDark
+    direction: rtl
+    color: $light-theme-today-and-selected-text-and-texts-color
+    margin: 0
+    padding-block: 2.5px
+    font-size: 12.5px
+
+.eventsDark
+    color: $dark-theme-today-and-selected-text-and-texts-color
+
+.todayLight
+    color: $dark-and-light-theme-today-background-color !important
+
+.todayDark
+    color: $dark-and-light-theme-today-background-color !important
+.todayHoliday
+    color: $dark-and-light-theme-holiday-text-color !important
+
+.daysOfWeekLight, .daysOfWeekDark
+    color: $light-theme-today-and-selected-text-and-texts-color
+    margin: 0
+    text-align: center
+    width: 45px
+    font-size: 15px
+    height: 22.5px
+    font-weight: bold
+
+.daysOfWeekDark
+    color: $dark-theme-today-and-selected-text-and-texts-color
+
+#noEventLight, #noEventDark
+    text-align: center
+    width: 100%
+    color: $light-theme-today-and-selected-text-and-texts-color
+    margin: 0
+    font-size: 12.5px
+
+#noEventDark
+    color: $dark-theme-today-and-selected-text-and-texts-color
+
+.redText
+    color: $dark-and-light-theme-holiday-text-color
+    white-space: pre-wrap
