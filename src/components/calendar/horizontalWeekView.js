@@ -132,7 +132,7 @@ class HorizontalWeekView extends React.Component {
               const day = currentMonth.days.slice(weekStartIndex, weekEndIndex)[i];
               return (
                 <div className={styles[getClassName(theme, "mainDay")]} key={i}>
-                  <p className={styles["daysOfWeekDark"]}>{d}</p>
+                  <p className={styles[getClassName(theme, "daysOfWeek")]}>{d}</p>
                   <button
                     key={i}
                     className={this.getDayClassName(day)}
