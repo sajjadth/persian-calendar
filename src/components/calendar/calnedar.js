@@ -3,6 +3,7 @@ import MonthView from "./monthView";
 import HorizontalWeekView from "./horizontalWeekView";
 import { connect } from "react-redux";
 import DayView from "./dayView";
+import VerticalWeekView from "./verticalWeekView";
 
 class Calendar extends React.Component {
   render() {
@@ -13,8 +14,10 @@ class Calendar extends React.Component {
           <MonthView />
         ) : view === "horizontal-week" ? (
           <HorizontalWeekView />
+        ) : view === "vertical-week" ? (
+          <VerticalWeekView />
         ) : view === "day" ? (
-          <DayView/>
+          <DayView />
         ) : null}
       </React.Fragment>
     );
