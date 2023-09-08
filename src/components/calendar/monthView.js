@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "../../styles/monthView.module.sass";
-import NextDark from "../../assets/icons/navigate_next-dark.svg";
-import NextLight from "../../assets/icons/navigate_next-light.svg";
-import BeforeDark from "../../assets/icons/navigate_before-dark.svg";
-import BeforeLight from "../../assets/icons/navigate_before-light.svg";
+import NextDark from "../../assets/icons/navigate-next-dark.svg";
+import NextLight from "../../assets/icons/navigate-next-light.svg";
+import BeforeDark from "../../assets/icons/navigate-before-dark.svg";
+import BeforeLight from "../../assets/icons/navigate-before-light.svg";
 import { getClassName, p2e, isItToday, isTodayHoliday } from "../../selectors";
 import {
   backToTodayHandler,

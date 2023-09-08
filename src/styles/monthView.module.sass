@@ -45,8 +45,8 @@
         > *
             color: $light-theme-today-and-selected-text-and-texts-color
 
-        > *
-            color: $dark-theme-today-and-selected-text-and-texts-color
+    #calendarHeaderDetailsDark > *
+        color: $dark-theme-today-and-selected-text-and-texts-color
 
     #calendarHeaderJalali
         margin: 0px
@@ -187,6 +187,8 @@
 
 #nextLight, #nextDark, #previousLight, #previousDark
     border-radius: 100%
+    padding: 5px
+    transition: all 0.25s
     &:hover
         cursor: pointer
         transition: all 0.25s
