@@ -21,7 +21,7 @@ const initState = {
   action: null,
   getDataStatus: "idle",
   daysOfWeek: ["شنبه", "یک", "دو", "سه", "چهار", "پنج", "جمعه"],
-  daysOfWeekLong: ["شنبه", "یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه"],
+  daysOfWeekLong: ["شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه"],
 };
 
 export const getData = createAsyncThunk("calendar/getData", async (year) => {
