@@ -84,9 +84,10 @@ class VerticalWeekView extends React.Component {
     return (
       <React.Fragment>
         <div id={styles[getClassName(theme, "calendar")]}>
-          <div id={styles["calendarMain"]}>
+          <div id={styles[getClassName(theme, "calendarMain")]}>
             {daysOfWeekLong.map((d, i) => {
               const day = currentMonth.days.slice(weekStartIndex, weekEndIndex)[i];
+              console.log(day.disabled)
               return (
                 <button
                   key={i}
@@ -122,7 +123,7 @@ class VerticalWeekView extends React.Component {
             alt="next"
           />
           <div id={styles["calendarHeaderParent"]}>
-            <div id={styles["calendarHeader"]}>
+            <div id={styles[getClassName(theme, "calendarHeader")]}>
               <div id={styles[getClassName(theme, "calendarHeaderDetails")]}>
                 <p id={styles["calendarHeaderJalali"]}>{currentMonth.header.jalali}</p>
                 <div id={styles["secandaryHeaderDetails"]}>
@@ -150,7 +151,7 @@ class VerticalWeekView extends React.Component {
             src={theme === "dark" ? BeforeDark : BeforeLight}
             alt="previous"
           />
-          <div id={styles["calendarFooter"]}>
+          <div id={styles[getClassName(theme, "calendarFooter")]}>
             {todayEvents.length === 0 ? (
               <p id={styles[getClassName(theme, "noEvent")]}>.رویدادی برای نمایش وجود ندارد</p>
             ) : (
