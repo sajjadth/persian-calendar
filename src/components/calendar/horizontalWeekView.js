@@ -79,7 +79,7 @@ class HorizontalWeekView extends React.Component {
     } else weekChangeHandler(e);
   }
   render() {
-    const { theme, currentMonth, todayEvents, daysOfWeek, weekStartIndex, weekEndIndex } =
+    const { theme, currentMonth, todayEvents, daysOfWeekLong, weekStartIndex, weekEndIndex } =
       this.props.calendar;
     return (
       <React.Fragment>
@@ -90,7 +90,7 @@ class HorizontalWeekView extends React.Component {
             src={theme === "dark" ? NextDark : NextLight}
             alt="next"
           />
-          <div id={styles["calendarFooter"]}>
+          <div id={styles[getClassName(theme, "calendarFooter")]}>
             {todayEvents.length === 0 ? (
               <p id={styles[getClassName(theme, "noEvent")]}>.رویدادی برای نمایش وجود ندارد</p>
             ) : (
@@ -104,8 +104,7 @@ class HorizontalWeekView extends React.Component {
               })
             )}
           </div>
-          <hr className={styles["divider"]} />
-          <div id={styles["calendarHeader"]}>
+          <div id={styles[getClassName(theme, "calendarHeader")]}>
             <div id={styles[getClassName(theme, "calendarHeaderDetails")]}>
               <p id={styles["calendarHeaderJalali"]}>{currentMonth.header.jalali}</p>
               <div id={styles["secandaryHeaderDetails"]}>
@@ -126,39 +125,34 @@ class HorizontalWeekView extends React.Component {
               </p>
             </div>
           </div>
-          <hr className={styles["divider"]} />
-          <div id={styles["calendarMain"]}>
-            {daysOfWeek.map((d, i) => {
+          <div id={styles[getClassName(theme, "calendarMain")]}>
+            {daysOfWeekLong.map((d, i) => {
               const day = currentMonth.days.slice(weekStartIndex, weekEndIndex)[i];
               return (
-                <div className={styles[getClassName(theme, "mainDay")]} key={i}>
+                <button
+                  key={i}
+                  className={this.getDayClassName(day)}
+                  disabled={day.disabled}
+                  id={
+                    !day.disabled && isTodayHoliday(this.props.calendar, day.day.jalali)
+                      ? styles[getClassName(theme, "today")]
+                      : !day.disabled
+                      ? "day" + String(p2e(day.day.jalali))
+                      : null
+                  }
+                  onClick={
+                    !day.disabled
+                      ? () => {
+                          this.daysSelectedStyleHandler(p2e(day.day.jalali));
+                        }
+                      : null
+                  }
+                >
                   <p className={styles[getClassName(theme, "daysOfWeek")]}>{d}</p>
-                  <button
-                    key={i}
-                    className={this.getDayClassName(day)}
-                    disabled={day.disabled}
-                    id={
-                      !day.disabled && isTodayHoliday(this.props.calendar, day.day.jalali)
-                        ? styles[getClassName(theme, "today")]
-                        : !day.disabled
-                        ? "day" + String(p2e(day.day.jalali))
-                        : null
-                    }
-                    onClick={
-                      !day.disabled
-                        ? () => {
-                            this.daysSelectedStyleHandler(p2e(day.day.jalali));
-                          }
-                        : null
-                    }
-                  >
-                    <p className={styles["jalali"]}>{day.day.jalali}</p>
-                    <div className={styles["secandaryDay"]}>
-                      <span className={styles["miladi"]}>{day.day.gregorian}</span>
-                      <span className={styles["qamari"]}>{day.day.hijri}</span>
-                    </div>
-                  </button>
-                </div>
+                  <p className={styles["jalali"]}>{day.day.jalali}</p>
+                  <p className={styles["miladi"]}>{day.day.gregorian}</p>
+                  <p className={styles["qamari"]}>{day.day.hijri}</p>
+                </button>
               );
             })}
           </div>

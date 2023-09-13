@@ -1,40 +1,46 @@
 @import "variables"
 
 #calendarLight, #calendarDark
-    width: 95%
-    min-width: 1000px
+    width: 475px
+    // min-width: 1000px
     min-height: 150px
     background: $dark-theme-calendar-background-color
     border-radius: 22.5px
-    display: flex
+    display: grid
     align-items: center
-    justify-content: space-between
+    justify-content: center
+    grid-auto-flow: column
+    gap: 5px
     padding: 5px
+    position: relative
 
 #calendarLight
     background: $light-theme-calendar-background-color
     box-shadow: 10px 10px 20px #e6e6e6, -10px -10px 20px #ffffff
 
-#calendarMain
-    min-height: 150px
-    min-width: 355px
-    width: 35%
+#calendarMainDark, #calendarMainLight
+    width: 140px
+    height: 140px
+    border-radius: 22.5px
+    background: #f5f5f5
     padding: 5px
     display: grid
-    grid-template-columns: repeat(7, 1fr)
+    grid-template-rows: repeat(7, 1fr)
     align-items: center
     justify-content: space-evenly
-    grid-gap: 2.5px
+    grid-gap: 1px
     direction: rtl
     -webkit-user-select: none
     -ms-user-select: none
     user-select: none
+#calendarMainDark
+    background: #191919
 
-#calendarHeader
-    min-height: 150px
-    height: 150px
-    min-width: 85px
-    width: 16%
+#calendarHeaderDark, #calendarHeaderLight
+    width: 140px
+    height: 140px
+    border-radius: 22.5px
+    background: #f5f5f5
     display: flex
     flex-direction: row
     align-items: center
@@ -50,37 +56,66 @@
         justify-content: space-evenly
         > *
             color: $light-theme-today-and-selected-text-and-texts-color
-
     #calendarHeaderDetailsDark > *
         color: $dark-theme-today-and-selected-text-and-texts-color
 
     #calendarHeaderJalali
         margin: 0px
         text-align: center
-        font-size: 22.5px
+        font-size: 17.5px
         font-weight: bold
     #calendarHeaderMiladi,
     #calendarHeaderQamari
         margin: 0px
         text-align: center
-        font-size: 12.5px
+        font-size: 10px
+#calendarHeaderDark
+    background: #191919
 
-#calendarFooter
-    min-height: 30px
-    width: 35%
-    display: grid
-    align-items: flex-start
+#calendarFooterDark,#calendarFooterLight
+    width: 140px
+    height: 140px
+    border-radius: 22.5px
+    background: #f5f5f5
     margin: 0
+    overflow-y: auto
+    // margin-inline: 2.5px
+    // min-height: 30px
+    // width: 35%
+    display: flex
+    align-items: flex-end
+    justify-content: flex-start
+    flex-direction: column
     padding: 5px
+    scrollbar-gutter: 10px
+    &::-webkit-scrollbar
+        width: 5px
+        background: transparent
+    &::-webkit-scrollbar-thumb
+        background-color: #757575
+        border-radius: 3px
+        width: 3px
+        border: 1px solid #f5f5f5
+    &::-webkit-scrollbar-track
+        background: #f5f5f5
+    &::-webkit-scrollbar-button
+        background: transparent
+#calendarFooterDark
+    background: #191919
+    &::-webkit-scrollbar-thumb
+        border: 1px solid #191919
+    &::-webkit-scrollbar-track
+        background: #191919
 
 .mainDayLight, .mainDayDark
-    width: 45px
-    height: 77.5px
+    width: 100%
+    // padding-inline: 10px
+    height: 15px
     display: grid
     align-items: center
     justify-items: center
-    grid-auto-flow: row
-    gap: 2.5px
+    grid-auto-flow: column
+    // gap: 11px
     color: $light-theme-today-and-selected-text-and-texts-color
     border-radius: 100%
 
@@ -98,15 +133,17 @@
     text-align: inherit
     color: inherit
 
-    width: 45px
-    height: 45px
+    width: 100%
+    height: 15px
     display: grid
     align-items: center
     justify-items: center
-    grid-auto-flow: row
-    gap: 2.5px
+    grid-auto-flow: column
+    padding: 0 2.5px
+    // margin: 2.5px
+    gap: 8px
     color: $light-theme-today-and-selected-text-and-texts-color
-    border-radius: 100%
+    border-radius: 22.5px
     &:hover:not(.disabledLight), &:hover:not(.disabledDark)
         background: $light-theme-selected-background-color
         cursor: pointer
@@ -124,10 +161,19 @@
     &:active:not(.disabledDark)
         background: $dark-theme-active-background-color
 
-.jalali
-    font-weight: bold
+.jalali ,
+.miladi,
+.qamari
     text-align: center
     margin: 0
+    height: 15px
+    width: 15px
+    font-size: 12px
+    display: flex
+    align-items: center
+    justify-content: center
+.jalali
+    font-weight: bold
 
 .secandaryDay
     display: grid
@@ -137,7 +183,7 @@
     width: 95%
 
 .dayLigh
-    &t:disabled
+    &:disabled
         color: $light-theme-disabled-text-color
         &:hover
             cursor: default
@@ -145,8 +191,12 @@
 
 .dayDark
     &:disabled
-        color: $dark-theme-disabled-text-color
+        > *
+            color: $dark-theme-disabled-text-color
         &:hover
+            cursor: default
+            background: none
+        &:active
             cursor: default
             background: none
 
@@ -157,21 +207,12 @@
 #todayLight
     background: $dark-and-light-theme-today-background-color
     color: $light-theme-calendar-background-color
-    border-radius: 100%
+    border-radius: 22.5px
 
 #todayDark
     background: $dark-and-light-theme-today-background-color
-    border-radius: 100%
-
-.divider
-    align-self: cneter
-    height: 100px
-    margin: 0
-    background: #c2c2c2
-    width: 0.5px
-    border: none
-    // position: fixed
-
+    border-radius: 22.5px
+fnext
 .eventsLight, .eventsDark
     direction: rtl
     color: $light-theme-today-and-selected-text-and-texts-color
@@ -183,7 +224,8 @@
     color: $dark-theme-today-and-selected-text-and-texts-color
 
 .holiday
-    color: $dark-and-light-theme-holiday-text-color
+    > *
+        color: $dark-and-light-theme-holiday-text-color !important
 
 .todayHoliday
     background: $dark-and-light-theme-holiday-text-color !important
@@ -191,11 +233,13 @@
 .daysOfWeekLight, .daysOfWeekDark
     color: $light-theme-today-and-selected-text-and-texts-color
     margin: 0
-    text-align: center
+    text-align: start
     width: 45px
-    font-size: 15px
-    height: 22.5px
-    font-weight: bold
+    font-size: 12px
+    height: 15px
+    display: flex
+    align-items: center
+    justify-content: flex-start
 
 .daysOfWeekDark
     color: $dark-theme-today-and-selected-text-and-texts-color
@@ -204,15 +248,23 @@
     text-align: center
     color: $light-theme-today-and-selected-text-and-texts-color
     margin: 0
-    font-size: 12.5px
+    font-size: 10px
+    height: 100%
+    width: 100%
+    display: flex
+    align-items: center
+    justify-content: center
 
 #noEventDark
     color: $dark-theme-today-and-selected-text-and-texts-color
 
 #nextLight, #nextDark, #previousLight, #previousDark
-    border-radius: 100%
-    padding: 5px
+    border-radius: 22.5px
+    margin: 5px
     transition: all 0.25s
+    width: 13px
+    height: 23px
+    position: absolute
     &:hover
         cursor: pointer
         transition: all 0.25s
@@ -221,7 +273,10 @@
     &:active
         background: $light-theme-active-background-color
         transition: all 0.05s
-
+#nextLight, #nextDark
+    left: 0px
+#previousLight, #previousDark
+    right: 0px
 #nextDark:hover, #previousDark:hover
     background: $dark-theme-selected-background-color
 
@@ -242,14 +297,15 @@
     cursor: pointer
     color: $light-theme-today-and-selected-text-and-texts-color
     margin: 0px
-    font-size: 12.5px
+    width: 60px
+    font-size: 10px
     text-align: center
     display: flex
     align-items: center
     justify-content: center
     border-radius: 25px
-    width: 100%
-    padding: 1.5px
+    // width: 100%
+    padding: 0.5px
     font-weight: bold
     transition: all 0.25s
 
