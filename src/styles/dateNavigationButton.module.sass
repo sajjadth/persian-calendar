@@ -1,0 +1,77 @@
+@keyframes next-animation
+    0%
+        width: 18px
+        height: 28px
+        left: 2.5px
+    25%
+        width: 13px
+        height: 23px
+    50%
+        left: -20px
+        opacity: 1
+    51%
+        opacity: 0
+    75%
+        opacity: 0
+        left: 20px
+    85%
+        opacity: 1
+        left: 5px
+    // 100%
+
+@keyframes previous-animation
+    0%
+        width: 18px
+        height: 28px
+        right: 2.5px
+    25%
+        width: 13px
+        height: 23px
+    50%
+        right: -20px
+        opacity: 1
+    51%
+        opacity: 0
+    75%
+        opacity: 0
+        right: 20px
+    85%
+        opacity: 1
+        right: 5px
+
+#nextLight, #nextDark, #previousLight, #previousDark
+    border-radius: 22.5px
+    // margin: 5px
+    transition: all 0.25s
+    width: 13px
+    height: 23px
+    position: absolute
+    z-index: 0
+    &:not(.nextAnimation):hover
+    &:not(.previousAnimation):hover
+        cursor: pointer
+        transition: all 0.25s
+        width: 18px
+        right: 2.5px
+        // margin: 0
+        // background: $light-theme-selected-background-color
+
+    // &:active
+    //     // background: $light-theme-active-background-color
+    //     animation-play-state: running
+    //     transition: all 0.05s
+#nextLight, #nextDark
+    left: 5px
+    &:hover
+        left: 2.5px
+#previousLight, #previousDark
+    right: 5px
+
+.nextAnimation
+    animation-name: next-animation
+    animation-duration: 250ms
+    animation-timing-function: ease
+.previousAnimation
+    animation-name: previous-animation
+    animation-duration: 250ms
+    animation-timing-function: ease

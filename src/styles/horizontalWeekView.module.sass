@@ -13,6 +13,8 @@
     gap: 5px
     padding: 5px
     position: relative
+    overflow: hidden
+    z-index: 0
 
 #calendarLight
     background: $light-theme-calendar-background-color
@@ -33,6 +35,7 @@
     -webkit-user-select: none
     -ms-user-select: none
     user-select: none
+    z-index: 2
 #calendarMainDark
     background: #191919
 
@@ -48,6 +51,7 @@
     -webkit-user-select: none
     -ms-user-select: none
     user-select: none
+    z-index: 2
     #calendarHeaderDetailsLight, #calendarHeaderDetailsDark
         height: 100%
         display: flex
@@ -88,6 +92,8 @@
     flex-direction: column
     padding: 5px
     scrollbar-gutter: 10px
+    position: relative
+    z-index: 2
     &::-webkit-scrollbar
         width: 5px
         background: transparent
@@ -213,7 +219,7 @@
 #todayDark
     background: $dark-and-light-theme-today-background-color
     border-radius: 22.5px
-fnext
+
 .eventsLight, .eventsDark
     direction: rtl
     color: $light-theme-today-and-selected-text-and-texts-color
@@ -258,31 +264,6 @@ fnext
 
 #noEventDark
     color: $dark-theme-today-and-selected-text-and-texts-color
-
-#nextLight, #nextDark, #previousLight, #previousDark
-    border-radius: 22.5px
-    margin: 5px
-    transition: all 0.25s
-    width: 13px
-    height: 23px
-    position: absolute
-    &:hover
-        cursor: pointer
-        transition: all 0.25s
-        background: $light-theme-selected-background-color
-
-    &:active
-        background: $light-theme-active-background-color
-        transition: all 0.05s
-#nextLight, #nextDark
-    left: 0px
-#previousLight, #previousDark
-    right: 0px
-#nextDark:hover, #previousDark:hover
-    background: $dark-theme-selected-background-color
-
-#nextDark:active, #previousDark:active
-    background: $dark-theme-active-background-color
 
 .selectedLight
     background: rgba(73, 56, 255, 0.1)

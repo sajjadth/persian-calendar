@@ -1,10 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import NextDark from "../../assets/icons/navigate-next-dark.svg";
+import DateNavigationButton from "../dateNavigationButton";
 import styles from "../../styles/horizontalWeekView.module.sass";
-import NextLight from "../../assets/icons/navigate-next-light.svg";
-import BeforeDark from "../../assets/icons/navigate-before-dark.svg";
-import BeforeLight from "../../assets/icons/navigate-before-light.svg";
 import {
   getClassName,
   p2e,
@@ -67,13 +64,13 @@ class HorizontalWeekView extends React.Component {
     backToTodayHandler();
   };
   weekChangeHandler(e) {
-    const { selectedYear, theme, selectedDayStyle } = this.props.calendar;
-    const { getData, weekChangeHandler } = this.props;
+    const { selectedYear, theme, selectedDayStyle } = this.calendar;
+    const { getData, weekChangeHandler } = this;
     if (selectedDayStyle)
       document
         .getElementById(`day${selectedDayStyle}`)
         .classList.remove(styles[getClassName(theme, "selected")]);
-    if (yearChangesInWeekChangeHandler(this.props.calendar, e)) {
+    if (yearChangesInWeekChangeHandler(this.calendar, e)) {
       getData(e === "next" ? selectedYear + 1 : selectedYear - 1);
       weekChangeHandler(e);
     } else weekChangeHandler(e);
@@ -84,12 +81,7 @@ class HorizontalWeekView extends React.Component {
     return (
       <React.Fragment>
         <div id={styles[getClassName(theme, "calendar")]}>
-          <img
-            onClick={() => this.weekChangeHandler("next")}
-            id={styles[getClassName(theme, "next")]}
-            src={theme === "dark" ? NextDark : NextLight}
-            alt="next"
-          />
+          <DateNavigationButton direction="next" handler={this.weekChangeHandler} />
           <div id={styles[getClassName(theme, "calendarFooter")]}>
             {todayEvents.length === 0 ? (
               <p id={styles[getClassName(theme, "noEvent")]}>.رویدادی برای نمایش وجود ندارد</p>
@@ -156,13 +148,7 @@ class HorizontalWeekView extends React.Component {
               );
             })}
           </div>
-
-          <img
-            onClick={() => this.weekChangeHandler("previous")}
-            id={styles[getClassName(theme, "previous")]}
-            src={theme === "dark" ? BeforeDark : BeforeLight}
-            alt="previous"
-          />
+          <DateNavigationButton direction="previous" handler={this.weekChangeHandler} />
         </div>
       </React.Fragment>
     );
