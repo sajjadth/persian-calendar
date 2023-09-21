@@ -1,10 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import NextDark from "../../assets/icons/navigate-next-dark.svg";
+import DateNavigationButton from "../dateNavigationButton";
 import styles from "../../styles/verticalWeekView.module.sass";
-import NextLight from "../../assets/icons/navigate-next-light.svg";
-import BeforeDark from "../../assets/icons/navigate-before-dark.svg";
-import BeforeLight from "../../assets/icons/navigate-before-light.svg";
 import {
   getClassName,
   p2e,
@@ -67,13 +64,13 @@ class VerticalWeekView extends React.Component {
     backToTodayHandler();
   };
   weekChangeHandler(e) {
-    const { selectedYear, theme, selectedDayStyle } = this.props.calendar;
-    const { getData, weekChangeHandler } = this.props;
+    const { selectedYear, theme, selectedDayStyle } = this.calendar;
+    const { getData, weekChangeHandler } = this;
     if (selectedDayStyle)
       document
         .getElementById(`day${selectedDayStyle}`)
         .classList.remove(styles[getClassName(theme, "selected")]);
-    if (yearChangesInWeekChangeHandler(this.props.calendar, e)) {
+    if (yearChangesInWeekChangeHandler(this.calendar, e)) {
       getData(e === "next" ? selectedYear + 1 : selectedYear - 1);
       weekChangeHandler(e);
     } else weekChangeHandler(e);
@@ -84,10 +81,11 @@ class VerticalWeekView extends React.Component {
     return (
       <React.Fragment>
         <div id={styles[getClassName(theme, "calendar")]}>
+          <DateNavigationButton direction="next" handler={this.weekChangeHandler} />
           <div id={styles[getClassName(theme, "calendarMain")]}>
             {daysOfWeekLong.map((d, i) => {
               const day = currentMonth.days.slice(weekStartIndex, weekEndIndex)[i];
-              console.log(day.disabled)
+              console.log(day.disabled);
               return (
                 <button
                   key={i}
@@ -116,12 +114,6 @@ class VerticalWeekView extends React.Component {
               );
             })}
           </div>
-          <img
-            onClick={() => this.weekChangeHandler("next")}
-            id={styles[getClassName(theme, "next")]}
-            src={theme === "dark" ? NextDark : NextLight}
-            alt="next"
-          />
           <div id={styles["calendarHeaderParent"]}>
             <div id={styles[getClassName(theme, "calendarHeader")]}>
               <div id={styles[getClassName(theme, "calendarHeaderDetails")]}>
@@ -145,12 +137,6 @@ class VerticalWeekView extends React.Component {
               </div>
             </div>
           </div>
-          <img
-            onClick={() => this.weekChangeHandler("previous")}
-            id={styles[getClassName(theme, "previous")]}
-            src={theme === "dark" ? BeforeDark : BeforeLight}
-            alt="previous"
-          />
           <div id={styles[getClassName(theme, "calendarFooter")]}>
             {todayEvents.length === 0 ? (
               <p id={styles[getClassName(theme, "noEvent")]}>.رویدادی برای نمایش وجود ندارد</p>
@@ -165,6 +151,7 @@ class VerticalWeekView extends React.Component {
               })
             )}
           </div>
+          <DateNavigationButton direction="previous" handler={this.weekChangeHandler} />
         </div>
       </React.Fragment>
     );

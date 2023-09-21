@@ -9,32 +9,45 @@ import BeforeLight from "../assets/icons/navigate-before-light.svg";
 import { getData, weekChangeHandler } from "../reducer/calendarSlice";
 
 class DateNavigationButton extends Component {
+  getAnimationClassName(dir, view) {
+    if (view === "vertical-week") {
+      return dir + "Animation" + "VerticalWeek";
+    }
+    return dir + "Animation";
+  }
   handler(e) {
-    const { theme } = this.props.calendar;
+    const { theme, view } = this.props.calendar;
     e === "next"
       ? document
           .getElementById(styles[getClassName(theme, "next")])
-          .classList.add(styles["nextAnimation"])
+          .classList.add(styles[this.getAnimationClassName("next", view)])
       : document
           .getElementById(styles[getClassName(theme, "previous")])
-          .classList.add(styles["previousAnimation"]);
+          .classList.add(styles[this.getAnimationClassName("previous", view)]);
     setTimeout(() => {
       e === "next"
         ? document
             .getElementById(styles[getClassName(theme, "next")])
-            .classList.remove(styles["nextAnimation"])
+            .classList.remove(styles[this.getAnimationClassName("next", view)])
         : document
             .getElementById(styles[getClassName(theme, "previous")])
-            .classList.remove(styles["previousAnimation"]);
+            .classList.remove(styles[this.getAnimationClassName("previous", view)]);
     }, 250);
     this.props.handler(e);
   }
+  capitalizeFirstLetter(str) {
+    let output = "";
+    str.split("-").forEach((s) => (output += s.charAt(0).toUpperCase() + s.slice(1)));
+    return output;
+  }
+
   render() {
-    const { theme } = this.props.calendar;
+    const { theme, view } = this.props.calendar;
     const { direction } = this.props;
     return (
       <img
         id={styles[getClassName(theme, direction)]}
+        className={styles[direction + this.capitalizeFirstLetter(view)]}
         onClick={() => this.handler(direction)}
         src={
           direction === "next"
