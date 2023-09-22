@@ -1,11 +1,9 @@
 @keyframes next-animation
     0%
-        width: 18px
-        height: 28px
+        transform: scale(1.25)
         left: 2.5px
     25%
-        width: 13px
-        height: 23px
+        transform: scale(1)
     50%
         left: -20px
         opacity: 1
@@ -21,12 +19,10 @@
 
 @keyframes next-vertical-week-animation
     0%
-        width: 18px
-        height: 28px
+        transform: scale(1.25)
         top: 2.5px
     25%
-        width: 13px
-        height: 23px
+        transform: scale(1)
     50%
         top: -17.5px
         opacity: 1
@@ -39,14 +35,29 @@
         opacity: 1
         top: 2.5px
 
+@keyframes next-month-animation
+    0%
+        transform: scale(1.25)
+    25%
+        transform: scale(1)
+    50%
+        left: -22px
+        opacity: 1
+    51%
+        opacity: 0
+    75%
+        opacity: 0
+        left: 30px
+    85%
+        opacity: 1
+        left: 2.5px
+
 @keyframes previous-animation
     0%
-        width: 18px
-        height: 28px
+        transform: scale(1.255)
         right: 2.5px
     25%
-        width: 13px
-        height: 23px
+        transform: scale(1)
     50%
         right: -20px
         opacity: 1
@@ -61,12 +72,10 @@
 
 @keyframes previous-vertical-week-animation
     0%
-        width: 18px
-        height: 28px
+        transform: scale(1.255)
         bottom: 2.5px
     25%
-        width: 13px
-        height: 23px
+        transform: scale(1)
     50%
         bottom: -17.5px
         opacity: 1
@@ -79,10 +88,26 @@
         opacity: 1
         bottom: 2.5px
 
+@keyframes previous-month-animation
+    0%
+        transform: scale(1.25)
+    25%
+        transform: scale(1)
+    50%
+        right: -22px
+        opacity: 1
+    51%
+        opacity: 0
+    75%
+        opacity: 0
+        right: 30px
+    85%
+        opacity: 1
+        right: 2.5px
+
 #nextLight, #nextDark, #previousLight, #previousDark
     user-select: none
     border-radius: 22.5px
-    // margin: 5px
     transition: all 0.25s
     width: 13px
     height: 23px
@@ -91,49 +116,75 @@
     &:not(.nextAnimation):hover
         &:not(.previousAnimation):hover
             &:not(.nextVerticalWeek)
-                cursor: pointer
-                transition: all 0.25s
-                width: 18px
-                right: 2.5px
+                &:not(.nextMonth)
+                    cursor: pointer
+                    transition: all 0.25s
+                    transform: scale(1.25)
 #nextLight, #nextDark
-    left: 5px
     &:not(.nextVerticalWeek)
-        &:hover
-            left: 2.5px
+        &:not(.nextMonth)
+            left: 5px
 #previousLight, #previousDark
-    right: 5px
+    &:not(.previousVerticalWeek)
+        &:not(.previousMonth)
+            right: 5px
 
 .nextAnimation
     &:not(.nextVerticalWeek)
-        animation-name: next-animation
-        animation-duration: 250ms
-        animation-timing-function: ease
+        &:not(.nextMonth)
+            animation-name: next-animation
+            animation-duration: 250ms
+            animation-timing-function: ease
 .previousAnimation
     &:not(.nextVerticalWeek)
-        animation-name: previous-animation
-        animation-duration: 250ms
-        animation-timing-function: ease
+        &:not(.nextMonth)
+            animation-name: previous-animation
+            animation-duration: 250ms
+            animation-timing-function: ease
 
 .nextVerticalWeek,
 .previousVerticalWeek
-    transform: rotate(90deg)
+    rotate: 90deg
     &:not(.nextAnimationVerticalWeek):hover
         &:not(.previousAnimationVerticalWeek):hover
             cursor: pointer !important
             transition: all 0.25s !important
-            width: 18px !important
-            right: auto
+            transform: scale(1.25)
 .nextVerticalWeek
     left: auto !important
     top: 0
 .previousVerticalWeek
     right: auto !important
     bottom: 0
+
 .nextAnimationVerticalWeek
     animation-name: next-vertical-week-animation
     animation-duration: 250ms
     animation-timing-function: ease
 .previousAnimationVerticalWeek
     animation-name: previous-vertical-week-animation
+    animation-duration: 250ms
+    animation-timing-function: ease
+
+.nextMonth,
+.previousMonth
+    &:not(.nextAnimationMonth):hover
+        &:not(.previousAnimationMonth):hover
+            cursor: pointer !important
+            transition: all 0.25s !important
+            transform: scale(1.25)
+.nextMonth
+    width: 20px !important
+    left: 2.5px
+.previousMonth
+    width: 20px !important
+    right: 2.5px
+
+.nextAnimationMonth
+    animation-name: next-month-animation
+    animation-duration: 250ms
+    animation-timing-function: ease
+.previousAnimationMonth
+    animation-name: previous-month-animation
     animation-duration: 250ms
     animation-timing-function: ease

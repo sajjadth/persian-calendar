@@ -1,10 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "../../styles/monthView.module.sass";
-import NextDark from "../../assets/icons/navigate-next-dark.svg";
-import NextLight from "../../assets/icons/navigate-next-light.svg";
-import BeforeDark from "../../assets/icons/navigate-before-dark.svg";
-import BeforeLight from "../../assets/icons/navigate-before-light.svg";
+import DateNavigationButton from "../dateNavigationButton";
 import { getClassName, p2e, isItToday, isTodayHoliday } from "../../selectors";
 import {
   backToTodayHandler,
@@ -58,8 +55,8 @@ class MonthView extends React.Component {
     backToTodayHandler();
   }
   monthChangeStyleHandler(e) {
-    const { selectedDayStyle, theme, selectedMonth, selectedYear } = this.props.calendar;
-    const { monthChangeHandler, getData } = this.props;
+    const { selectedDayStyle, theme, selectedMonth, selectedYear } = this.calendar;
+    const { monthChangeHandler, getData } = this;
 
     if (selectedDayStyle)
       document
@@ -75,12 +72,7 @@ class MonthView extends React.Component {
       <React.Fragment>
         <div id={styles[getClassName(theme, "calendar")]}>
           <div id={styles["calendarHeader"]}>
-            <img
-              onClick={() => this.monthChangeStyleHandler("next")}
-              id={styles[getClassName(theme, "next")]}
-              src={theme === "dark" ? NextDark : NextLight}
-              alt="next"
-            />
+            <DateNavigationButton direction="next" handler={this.monthChangeStyleHandler} />
             <div id={styles[getClassName(theme, "calendarHeaderDetails")]}>
               <p id={styles["calendarHeaderJalali"]}>{currentMonth.header.jalali}</p>
               <div id={styles["secandaryHeaderDetails"]}>
@@ -102,14 +94,8 @@ class MonthView extends React.Component {
                 امروز
               </p>
             </div>
-            <img
-              onClick={() => this.monthChangeStyleHandler("previous")}
-              id={styles[getClassName(theme, "previous")]}
-              src={theme === "dark" ? BeforeDark : BeforeLight}
-              alt="previous"
-            />
+            <DateNavigationButton direction="previous" handler={this.monthChangeStyleHandler} />
           </div>
-          <hr className={styles["divider"]} />
           <div id={styles["calendarMain"]}>
             {daysOfWeek.map((dayOfWeek, i) => {
               return (
@@ -148,7 +134,6 @@ class MonthView extends React.Component {
               );
             })}
           </div>
-          <hr className={styles["divider"]} />
           <div id={styles["calendarFooter"]}>
             {todayEvents.length === 0 ? (
               <p id={styles[getClassName(theme, "noEvent")]}>.رویدادی برای نمایش وجود ندارد</p>

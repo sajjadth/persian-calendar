@@ -6,14 +6,18 @@ import NextLight from "../assets/icons/navigate-next-light.svg";
 import styles from "../styles/dateNavigationButton.module.sass";
 import BeforeDark from "../assets/icons/navigate-before-dark.svg";
 import BeforeLight from "../assets/icons/navigate-before-light.svg";
-import { getData, weekChangeHandler } from "../reducer/calendarSlice";
+import { getData, weekChangeHandler, monthChangeHandler } from "../reducer/calendarSlice";
 
 class DateNavigationButton extends Component {
   getAnimationClassName(dir, view) {
-    if (view === "vertical-week") {
-      return dir + "Animation" + "VerticalWeek";
+    switch (view) {
+      case "vertical-week":
+        return dir + "Animation" + "VerticalWeek";
+      case "month":
+        return dir + "Animation" + "Month";
+      default:
+        return dir + "Animation";
     }
-    return dir + "Animation";
   }
   handler(e) {
     const { theme, view } = this.props.calendar;
@@ -70,6 +74,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   getData,
   weekChangeHandler,
+  monthChangeHandler,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DateNavigationButton);
