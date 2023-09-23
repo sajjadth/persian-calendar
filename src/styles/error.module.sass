@@ -1,0 +1,25 @@
+@import "variables"
+#errorDark, #errorLight
+    display: grid
+    align-items: center
+    justify-items: center
+    width: 250px
+    height: 250px
+    padding: 25px 50px
+    border-radius: 22.5px
+    background: #ededed
+#errorDark
+    background: #1e1e1e
+#errorMessageLight, #errorMessageDark
+    text-align: center
+    color: $light-theme-today-and-selected-text-and-texts-color
+    direction: rtl
+
+#errorMessageDark
+    color: $dark-theme-today-and-selected-text-and-texts-color
+
+#retry
+    cursor: pointer
+    transition: all 0.25s ease
+    &:hover
+        transform: rotate(-45deg)
