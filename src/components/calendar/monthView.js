@@ -134,7 +134,7 @@ class MonthView extends React.Component {
               );
             })}
           </div>
-          <div id={styles["calendarFooter"]}>
+          <div id={styles[getClassName(theme, "calendarFooter")]}>
             {todayEvents.length === 0 ? (
               <p id={styles[getClassName(theme, "noEvent")]}>.رویدادی برای نمایش وجود ندارد</p>
             ) : (
