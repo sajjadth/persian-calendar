@@ -19,30 +19,32 @@ class Error extends React.Component {
     }, 200);
   }
   render() {
-    const { theme } = this.props.calendar;
+    const { theme, errorMessage, errorType } = this.props.calendar;
     return (
-      <div id={styles[getClassName(theme,"error")]}>
-        <lord-icon
-          src="https://cdn.lordicon.com/bmnlikjh.json"
-          trigger="loop"
-          colors="primary:#FF3B30"
-          style={{ width: "75px", height: "75px" }}
-        ></lord-icon>
-        <p id={styles[getClassName(theme, "errorMessage")]}>
-          متأسفانه یک مشکل ناخواسته رخ داده است.
-          <br />
-          لطفاً دوباره امتحان کنید.
-        </p>
-        <lord-icon
-          id={styles["retry"]}
-          src="https://cdn.lordicon.com/akuwjdzh.json"
-          trigger="click"
-          colors={theme === "dark" ? "primary:#E0E0E0" : "primary:#0A0A0A"}
-          state="hover"
-          style={{ width: "25px", height: "25px" }}
-          onClick={this.retryHandler}
-        ></lord-icon>
-      </div>
+      <React.Fragment>
+        {errorType === "display" ? (
+          <p style={{padding:"5px"}} id={styles[getClassName(theme, "errorMessage")]}>{errorMessage}</p>
+        ) : (
+          <div id={styles[getClassName(theme, "error")]}>
+            <lord-icon
+              src="https://cdn.lordicon.com/bmnlikjh.json"
+              trigger="loop"
+              colors="primary:#FF3B30"
+              style={{ width: "75px", height: "75px" }}
+            ></lord-icon>
+            <p id={styles[getClassName(theme, "errorMessage")]}>{errorMessage}</p>
+            <lord-icon
+              id={styles["retry"]}
+              src="https://cdn.lordicon.com/akuwjdzh.json"
+              trigger="click"
+              colors={theme === "dark" ? "primary:#E0E0E0" : "primary:#0A0A0A"}
+              state="hover"
+              style={{ width: "25px", height: "25px" }}
+              onClick={this.retryHandler}
+            ></lord-icon>
+          </div>
+        )}
+      </React.Fragment>
     );
   }
 }

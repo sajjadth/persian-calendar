@@ -14,6 +14,7 @@ const initState = {
   currentMonth: null,
   error: false,
   errorMessage: null,
+  errorType: null,
   selectedDayStyle: null,
   todayEvents: null,
   weekStartIndex: null,
@@ -37,7 +38,8 @@ export const calendarSlice = createSlice({
     actionsBeforeMounting: (state, action) => {
       const params = action.payload.params;
       const date = action.payload.date;
-      if (params.length !== 0) {
+      const viewChange = action.payload.viewChange;
+      if (params.length !== 0 && !viewChange) {
         params.forEach((p) => {
           const [key, value] = p.split("=");
           if (key === "theme" && value === "light") state.theme = value;
@@ -55,6 +57,10 @@ export const calendarSlice = createSlice({
       state.month = Number(p2e(date[1]));
       state.selectedMonth = Number(p2e(date[1]));
       state.day = Number(p2e(date[2]));
+      if (viewChange) {
+        calendarSlice.caseReducers.actionsAfterFulfulledGetDate(state);
+        state.loading = false;
+      }
     },
     actionsAfterFulfulledGetDate: (state, action) => {
       switch (state.view) {
@@ -223,6 +229,127 @@ export const calendarSlice = createSlice({
         calendarSlice.caseReducers.getTodayEvents(state, { payload: state.day });
       else calendarSlice.caseReducers.getTodayEvents(state, { payload: 0 });
     },
+    changeView: (state, action) => {
+      state.loading = true;
+      const params = window.location.search.slice(1, window.location.search.length).split("&");
+      const date = new Date().toLocaleDateString("fa-IR").split("/");
+      state.view = action.payload;
+      calendarSlice.caseReducers.actionsBeforeMounting(state, {
+        payload: { params: params, date: date, viewChange: true },
+      });
+    },
+    newError: (state, action) => {
+      if (!action.payload || (!action.payload.message && !action.payload.type)) {
+        state.error = false;
+        state.errorType = null;
+        state.errorMessage = null;
+      } else if (action.payload.message && action.payload.type) {
+        state.error = true;
+        state.errorType = action.payload.type;
+        state.errorMessage = action.payload.message;
+      }
+    },
+    handleResize: (state, action) => {
+      let view = "month";
+      const params = window.location.search.slice(1, window.location.search.length).split("&");
+      if (params.length > 0) {
+        params.forEach((p) => {
+          const key = p.split("=")[0];
+          const value = p.split("=")[1];
+          if (key === "view") view = value;
+        });
+      }
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const reducer = calendarSlice.caseReducers;
+      switch (view) {
+        case "month":
+          reducer.handleMonthView(state, { payload: { w: w, h: h, view: view } });
+          break;
+        case "vertical-week":
+          reducer.handleVerticalWeekView(state, { payload: { w: w, h: h, view: view } });
+          break;
+        case "horizontal-week":
+          reducer.handleHorizontalWeekView(state, { payload: { w: w, h: h, view: view } });
+          break;
+        case "day":
+          reducer.handleDayView(state, { payload: { w: w, h: h } });
+          break;
+        default:
+          break;
+      }
+    },
+    handleMonthView: (state, action) => {
+      const { w, h, view } = action.payload;
+      const reducer = calendarSlice.caseReducers;
+      if (state.error && h >= 200 && w >= 200) reducer.newError(state, { payload: {} });
+      else if (w >= 350 && h >= 520 && state.view !== view)
+        reducer.changeView(state, { payload: view });
+      else if ((w < 350 || h < 520) && w >= 150 && h >= 405)
+        reducer.changeView(state, { payload: "vertical-week" });
+      else if ((w < 350 || h < 520) && w >= 475 && h >= 150)
+        reducer.changeView(state, { payload: "horizontal-week" });
+      else if ((w < 350 || h < 520) && h >= 200 && w >= 200)
+        reducer.changeView(state, { payload: "day" });
+      else if (h < 200 || w < 200)
+        reducer.newError(state, {
+          payload: {
+            type: "display",
+            message: "به نظر می‌رسد صفحه‌نمایش کوچک باشد. لطفاً ابعاد آن را بیشتر کنید.",
+          },
+        });
+    },
+    handleVerticalWeekView: (state, action) => {
+      const { w, h, view } = action.payload;
+      const reducer = calendarSlice.caseReducers;
+      if (state.error && !(h < 200 || (h >= 405 && w < 150) || (h < 405 && w < 200)))
+        reducer.newError(state, { payload: {} });
+      else if (w >= 150 && h >= 405 && state.view !== view)
+        reducer.changeView(state, { payload: view });
+      else if (h < 405 && w >= 475 && h >= 150)
+        reducer.changeView(state, { payload: "horizontal-week" });
+      else if (h < 405 && h >= 200 && w >= 200) reducer.changeView(state, { payload: "day" });
+      else if (h < 200 || (h >= 405 && w < 150) || (h < 405 && w < 200))
+        reducer.newError(state, {
+          payload: {
+            type: "display",
+            message: "به نظر می‌رسد صفحه‌نمایش کوچک باشد. لطفاً ابعاد آن را بیشتر کنید.",
+          },
+        });
+    },
+    handleHorizontalWeekView: (state, action) => {
+      const { w, h, view } = action.payload;
+      const reducer = calendarSlice.caseReducers;
+      if (state.error && !(w < 200 || (w >= 475 && h < 150) || (w < 475 && h < 200)))
+        reducer.newError(state, { payload: {} });
+      else if (h >= 150 && w >= 475 && state.view !== view)
+        reducer.changeView(state, { payload: view });
+      else if (w < 475 && h >= 405 && w >= 150)
+        reducer.changeView(state, { payload: "vertical-week" });
+      else if (w < 475 && h >= 200 && w >= 200) reducer.changeView(state, { payload: "day" });
+      else if (w < 200 || (w >= 475 && h < 150) || (w < 475 && h < 200))
+        reducer.newError(state, {
+          payload: {
+            type: "display",
+            message: "به نظر می‌رسد صفحه‌نمایش کوچک باشد. لطفاً ابعاد آن را بیشتر کنید.",
+          },
+        });
+    },
+
+    handleDayView: (state, action) => {
+      const { w, h } = action.payload;
+      const reducer = calendarSlice.caseReducers;
+      if (h < 200 || w < 200) {
+        reducer.newError(state, {
+          payload: {
+            type: "display",
+            message: "به نظر می‌رسد صفحه‌نمایش کوچک باشد. لطفاً ابعاد آن را بیشتر کنید.",
+          },
+        });
+      } else {
+        reducer.newError(state, { payload: {} });
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getData.pending, (state) => {
@@ -262,5 +389,6 @@ export const {
   actionsBeforeMounting,
   weekChangeHandler,
   actionsBeforeMountingHorizontalWeekView,
+  handleResize,
 } = calendarSlice.actions;
 export default calendarSlice.reducer;
