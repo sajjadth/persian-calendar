@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/persian-calendar/static/css/main.8b1b9334.css",
-    "main.js": "/persian-calendar/static/js/main.80a90071.js",
+    "main.css": "/persian-calendar/static/css/main.c67b472c.css",
+    "main.js": "/persian-calendar/static/js/main.63925a97.js",
     "static/media/Sahel-Bold.eot": "/persian-calendar/static/media/Sahel-Bold.542b96d9928b115e0cab.eot",
     "static/media/Sahel-Bold.ttf": "/persian-calendar/static/media/Sahel-Bold.49063e5bf0cd49628ac1.ttf",
     "static/media/Sahel.eot": "/persian-calendar/static/media/Sahel.edbc750873db0b16a52e.eot",
@@ -9,15 +9,15 @@
     "static/media/Sahel-Bold.woff": "/persian-calendar/static/media/Sahel-Bold.cfae7a4fe4c336ad3aa8.woff",
     "static/media/Sahel.woff": "/persian-calendar/static/media/Sahel.f0ac8c7018b24ef1cfe7.woff",
     "index.html": "/persian-calendar/index.html",
-    "static/media/navigate_next-dark.svg": "/persian-calendar/static/media/navigate_next-dark.db4e5cc4860fa8189114ecd94a93275d.svg",
-    "static/media/navigate_next-light.svg": "/persian-calendar/static/media/navigate_next-light.346660b76be401a1dc89a5cd7cc7ea47.svg",
-    "static/media/navigate_before-dark.svg": "/persian-calendar/static/media/navigate_before-dark.951c707afb3e037ecead17afe0aeabfc.svg",
-    "static/media/navigate_before-light.svg": "/persian-calendar/static/media/navigate_before-light.016c0c7446196be36a657bd8dfc3e60c.svg",
-    "main.8b1b9334.css.map": "/persian-calendar/static/css/main.8b1b9334.css.map",
-    "main.80a90071.js.map": "/persian-calendar/static/js/main.80a90071.js.map"
+    "static/media/navigate-next-dark.svg": "/persian-calendar/static/media/navigate-next-dark.6a66306411e57b0d56cf0bef2d35eaed.svg",
+    "static/media/navigate-next-light.svg": "/persian-calendar/static/media/navigate-next-light.855bea68d0478294c203e990dbe5ef9d.svg",
+    "static/media/navigate-before-dark.svg": "/persian-calendar/static/media/navigate-before-dark.5f4d739609d1ed0543049afaeedb544f.svg",
+    "static/media/navigate-before-light.svg": "/persian-calendar/static/media/navigate-before-light.05118c9784fb6e51461c9887e8452e5c.svg",
+    "main.c67b472c.css.map": "/persian-calendar/static/css/main.c67b472c.css.map",
+    "main.63925a97.js.map": "/persian-calendar/static/js/main.63925a97.js.map"
   },
   "entrypoints": [
-    "static/css/main.8b1b9334.css",
-    "static/js/main.80a90071.js"
+    "static/css/main.c67b472c.css",
+    "static/js/main.63925a97.js"
   ]
 }
