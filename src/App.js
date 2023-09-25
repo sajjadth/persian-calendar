@@ -31,9 +31,9 @@ class App extends React.Component {
     this.props
       .getData(p2e(new Date().toLocaleDateString("fa-IR", { year: "numeric" })))
       .then(() => {
-        this.props.actionsBeforeMounting({ params: params, date: date });
         this.props.handleResize();
       });
+    this.props.actionsBeforeMounting({ params: params, date: date });
   }
 }
 
