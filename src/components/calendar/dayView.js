@@ -7,8 +7,17 @@ class DayView extends React.Component {
   render() {
     const { theme, currentMonth, day, todayEvents } = this.props.calendar;
     const today = currentMonth.days[currentMonth.startIndex - 1 + day];
-    const todayGregorian = `${today.day.gregorian} ${currentMonth.header.gregorian}`;
-    const todayHijri = `${today.day.hijri} ${currentMonth.header.hijri}`;
+    const todayGregorian = new Date().toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+    const hijri = new Date().toLocaleDateString("ar-SA", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+    const todayHijri = hijri.substring(0, hijri.lastIndexOf("هـ"));
     return (
       <React.Fragment>
         <div id={styles[getClassName(theme, "calendar")]}>
