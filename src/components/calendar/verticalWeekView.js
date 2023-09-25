@@ -9,18 +9,9 @@ import {
   isTodayHoliday,
   yearChangesInWeekChangeHandler,
 } from "../../selectors";
-import {
-  getData,
-  getTodayEvents,
-  daysClickHandler,
-  weekChangeHandler,
-  monthChangeHandler,
-  backToTodayHandler,
-} from "../../reducer/calendarSlice";
+import { getData, daysClickHandler, backToTodayHandler } from "../../reducer/calendarSlice";
 
 class VerticalWeekView extends React.Component {
-  nextWeek() {}
-  previousWeek() {}
   getDayClassName(day) {
     const { theme } = this.props.calendar;
     const themeClass = styles[getClassName(theme, "day")];
@@ -85,7 +76,6 @@ class VerticalWeekView extends React.Component {
           <div id={styles[getClassName(theme, "calendarMain")]}>
             {daysOfWeekLong.map((d, i) => {
               const day = currentMonth.days.slice(weekStartIndex, weekEndIndex)[i];
-              console.log(day.disabled);
               return (
                 <button
                   key={i}
@@ -170,10 +160,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = {
   getData,
-  getTodayEvents,
   daysClickHandler,
-  weekChangeHandler,
   backToTodayHandler,
-  monthChangeHandler,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VerticalWeekView);

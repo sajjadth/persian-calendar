@@ -9,18 +9,9 @@ import {
   isTodayHoliday,
   yearChangesInWeekChangeHandler,
 } from "../../selectors";
-import {
-  getData,
-  getTodayEvents,
-  daysClickHandler,
-  weekChangeHandler,
-  monthChangeHandler,
-  backToTodayHandler,
-} from "../../reducer/calendarSlice";
+import { getData, daysClickHandler, backToTodayHandler } from "../../reducer/calendarSlice";
 
 class HorizontalWeekView extends React.Component {
-  nextWeek() {}
-  previousWeek() {}
   getDayClassName(day) {
     const { theme } = this.props.calendar;
     const themeClass = styles[getClassName(theme, "day")];
@@ -167,10 +158,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = {
   getData,
-  getTodayEvents,
   daysClickHandler,
-  weekChangeHandler,
   backToTodayHandler,
-  monthChangeHandler,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(HorizontalWeekView);

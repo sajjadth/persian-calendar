@@ -31,11 +31,11 @@
     user-select: none
 
 #calendarHeaderDark
-    background: #191919 !important
+    background: $dark-theme-main-background !important
 #calendarHeaderDark,#calendarHeaderLight
     height: 75px
     width: 190px
-    background: #ededed
+    background: $light-theme-main-background
     border-radius: 22.5px
     display: flex
     flex-direction: column
@@ -124,19 +124,17 @@
         background-color: #757575
         border-radius: 3px
         width: 3px
-        border: 1px solid #f5f5f5
+        border: 1px solid $light-theme-main-background
     &::-webkit-scrollbar-track
-        background: #f5f5f5
+        background: $light-theme-main-background
     &::-webkit-scrollbar-button
         background: transparent
 #calendarFooterDark
-    background: #191919
+    background: $dark-theme-main-background
     &::-webkit-scrollbar-thumb
-        border: 1px solid #191919
+        border: 1px solid $dark-theme-main-background
     &::-webkit-scrollbar-track
-        background: #191919
-#calendarFooterDark
-    background: #191919 !important
+        background: $dark-theme-main-background
 
 .eventsLight, .eventsDark
     direction: rtl
@@ -155,18 +153,6 @@
     color: $dark-and-light-theme-today-background-color !important
 .todayHoliday
     color: $dark-and-light-theme-holiday-text-color !important
-
-.daysOfWeekLight, .daysOfWeekDark
-    color: $light-theme-today-and-selected-text-and-texts-color
-    margin: 0
-    text-align: center
-    width: 45px
-    font-size: 15px
-    height: 22.5px
-    font-weight: bold
-
-.daysOfWeekDark
-    color: $dark-theme-today-and-selected-text-and-texts-color
 
 #noEventLight, #noEventDark
     text-align: center

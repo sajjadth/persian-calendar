@@ -19,7 +19,7 @@ export const isItToday = (state) => {
     state.selectedMonth === state.month && state.selectedYear === state.year;
   const isSelectedDayStyleEmpty = !state.selectedDayStyle;
 
-  if (state.view === "horizontal-week" || state.view === "vertical-week") {
+  if (state.view.includes("-week")) {
     return (
       state.weekEndIndex === weekEndIndex &&
       state.weekStartIndex === weekStartIndex &&

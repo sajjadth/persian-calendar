@@ -120,7 +120,7 @@ export const calendarSlice = createSlice({
     onChangeMonthCheckForEvents: (state, action) => {
       const checkMonthAndYear =
         state.selectedMonth === state.month && state.selectedYear === state.year;
-      const checkView = state.view === "horizontal-week" || state.view === "vertical-week";
+      const checkView = state.view.includes("-week");
       calendarSlice.caseReducers.getTodayEvents(state, {
         payload: checkView && !isItToday(state) ? 0 : checkMonthAndYear ? state.day : 0,
       });
@@ -153,7 +153,6 @@ export const calendarSlice = createSlice({
       }
     },
     backToTodayHandler: (state, action) => {
-      console.log(5858);
       const day = Number(p2e(new Date().toLocaleDateString("fa-IR", { day: "numeric" })));
       const weekDay = new Date().toLocaleDateString("fa-IR", { weekday: "long" });
       const indexOfWeekDay = state.daysOfWeekLong.findIndex((d) => weekDay === d);
@@ -162,7 +161,7 @@ export const calendarSlice = createSlice({
       let weekEndIndex = startIndex + 7;
 
       if (state.action) state.action = null;
-      if (state.view === "horizontal-week" || state.view === "vertical-week") {
+      if (state.view.includes("-week")) {
         if (
           (state.weekStartIndex !== weekStartIndex && state.weekEndIndex !== weekEndIndex) ||
           state.selectedYear !== state.year ||
@@ -370,7 +369,6 @@ export const calendarSlice = createSlice({
       const checkMonthAndYear =
         state.selectedMonth === state.month && state.selectedYear === state.year;
       state.todayEvents = checkMonthAndYear ? e : [];
-      // state.loading = false;
     });
     builder.addCase(getData.rejected, (state, err) => {
       console.log(err);

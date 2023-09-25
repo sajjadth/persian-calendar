@@ -23,7 +23,9 @@ class Error extends React.Component {
     return (
       <React.Fragment>
         {errorType === "display" ? (
-          <p style={{padding:"5px"}} id={styles[getClassName(theme, "errorMessage")]}>{errorMessage}</p>
+          <p style={{ padding: "5px" }} id={styles[getClassName(theme, "errorMessage")]}>
+            {errorMessage}
+          </p>
         ) : (
           <div id={styles[getClassName(theme, "error")]}>
             <lord-icon
