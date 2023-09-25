@@ -71,7 +71,7 @@ class MonthView extends React.Component {
     return (
       <React.Fragment>
         <div id={styles[getClassName(theme, "calendar")]}>
-          <div id={styles["calendarHeader"]}>
+          <div id={styles[getClassName(theme, "calendarHeader")]}>
             <DateNavigationButton direction="next" handler={this.monthChangeStyleHandler} />
             <div id={styles[getClassName(theme, "calendarHeaderDetails")]}>
               <p id={styles["calendarHeaderJalali"]}>{currentMonth.header.jalali}</p>
@@ -96,7 +96,7 @@ class MonthView extends React.Component {
             </div>
             <DateNavigationButton direction="previous" handler={this.monthChangeStyleHandler} />
           </div>
-          <div id={styles["calendarMain"]}>
+          <div id={styles[getClassName(theme, "calendarMain")]}>
             {daysOfWeek.map((dayOfWeek, i) => {
               return (
                 <p className={styles[getClassName(theme, "daysOfWeek")]} key={i}>

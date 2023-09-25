@@ -15,8 +15,8 @@
     background: $light-theme-calendar-background-color
     box-shadow: 10px 10px 20px #e6e6e6, -10px -10px 20px #ffffff
 
-#calendarMain
-    background: $dark-theme-main-background
+#calendarMainDark,#calendarMainLight
+    background: $light-theme-main-background
     border-radius: 22.5px
     padding: 5px
     min-height: 290px
@@ -29,8 +29,10 @@
     -webkit-user-select: none
     -ms-user-select: none
     user-select: none
+#calendarMainDark
+    background: $dark-theme-main-background
 
-#calendarHeader
+#calendarHeaderDark, #calendarHeaderLight
     position: relative
     height: 110px
     width: 100%
@@ -42,7 +44,7 @@
     -webkit-user-select: none
     -ms-user-select: none
     user-select: none
-    background: $dark-theme-main-background
+    background: $light-theme-main-background
     border-radius: 22.5px
     overflow: hidden
     z-index: 2
@@ -53,7 +55,6 @@
         width: 280px
         height: 100%
         padding: 5px
-        background: $dark-theme-main-background
         border-radius: 22.5px
         height: 100%
         display: flex
@@ -76,9 +77,11 @@
         margin: 0px
         text-align: center
         font-size: 10px
+#calendarHeaderDark
+    background: $dark-theme-main-background
 
 #calendarFooterDark, #calendarFooterLight
-    background: $dark-theme-main-background
+    background: $light-theme-main-background
     border-radius: 22.5px
     height: 110px
     width: 100%
